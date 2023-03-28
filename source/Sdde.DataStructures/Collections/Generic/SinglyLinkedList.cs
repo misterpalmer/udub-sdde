@@ -1,14 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Sdde.Collections.Generic;
 
 public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 {
     private ISinglyNode<T>? _head;
-    private ISinglyNode<T>? _tail;
-    private ISinglyNode<T>? _current;
     private int _count;
     public int Count
     {
@@ -33,24 +30,6 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
             _head = value;
         }
     }
-    public ISinglyNode<T> Last
-    {
-        get => _tail!;
-        private set
-        {
-            _tail = value;
-        }
-    }
-    public ISinglyNode<T> Current
-    {
-        get => _current!;
-        private set => _current = value;
-    }
-    public ISinglyNode<T> Next => _current!.Next!;
-    
-    // create method to get by [index]
-    // create method to Sort with Property IsSorted
-    // create property for IsCircular???
 
     public SinglyLinkedList()
     {
@@ -59,7 +38,7 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
     public SinglyLinkedList(ISinglyNode<T> input)
     {
-        _head = _tail = _current = input;
+        _head = input;
         Count++;
     }
 
@@ -74,8 +53,7 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
         foreach(var element in input)
         {
-            var node = new SinglyNode<T>(element);
-            AddLast(element);
+            AddLast(new SinglyNode<T>(element));
         }
     }
 
@@ -86,10 +64,11 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
     public void AddAfter(ISinglyNode<T> node, ISinglyNode<T> input)
     {
+        ISinglyNode<T> current = First;
         if (AddValidation(node, input))
         {
-            input.Next = Current.Next;
-            Current.Next = input;
+            input.Next = current.Next;
+            current.Next = input;
             Count++;
         }
     }
@@ -102,20 +81,17 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
     public void AddFirst(ISinglyNode<T> input)
     {
         // validate it does not belong to a list
-        if (!IsLinked(input))
+        if (IsLinked(input)) return;
+        if (First is null)
         {
-            if (First is not null)
-            {
-                input.Next = First;
-                First = input;
-            }
-            else
-            {
-                Current = First = Last = input;
-            }
-            
-            Count++;   
+            First = input;
+            Count++;
+            return;
         }
+        
+        input.Next = First;
+        First = input;
+        Count++;
     }
 
     public void AddLast(T input)
@@ -125,20 +101,23 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
     public void AddLast(ISinglyNode<T> input)
     {
-        if (!IsLinked(input))
+        // validate it does not belong to a list
+        if (IsLinked(input)) return;
+        if (First is null)
         {
-            if(First is not null)
-            {
-                Last.Next = input;
-                Last = Last.Next;
-            }
-            else
-            {
-                Current = First = Last = input;
-            }
-
+            First = input;
             Count++;
+            return;
         }
+        
+        ISinglyNode<T> current = First;
+        while (current.Next is not null)
+        {
+            current = current.Next;
+        }
+        
+        current.Next = input;
+        Count++;
     }
 
     // move support for LINQ Extension
@@ -153,50 +132,49 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
         if (First is null) return null;
 
         // Node<T>(T input) checks for null input, throws exception
-        Current = First;
-        while(Current is not null)
+        ISinglyNode<T> current = First;
+        while(current is not null)
         {
-            if(Current.Data!.Equals(input))
+            if(current.Data!.Equals(input))
             {
-                return Current;
+                return current;
             }
-            Current = Current.Next;
+            current = current.Next!;
         }
         return null;
-        return Find(new SinglyNode<T>(input));
     }
 
     public ISinglyNode<T>? Find(ISinglyNode<T> input)
     {
         if (First is null) return null;
         
-        Current = First;
-        while(Current is not null)
+        ISinglyNode<T> current = First;
+        while(current is not null)
         {
-            if(Current.Equals(input))
+            if(current.Equals(input))
             {
-                return Current;
+                return current;
             }
-            Current = Current.Next;
+            current = current.Next!;
         }
         return null;
     }
 
     public ISinglyNode<T>? FindLast(T input)
     {
-        Current = First;
+        if (First is null) return null;
         
-        if (Current is null || Current.Data is null) return null;
         // Node<T>(T input) checks for null input, throws exception
         ISinglyNode<T> value = new SinglyNode<T>(input);
+        ISinglyNode<T> current = First;
         ISinglyNode<T>? node = null;
-        while(Current is not null)
+        while(current is not null)
         {
-            if(Current.Data.Equals(value.Data))
+            if(Equals(current.Data, value.Data))
             {
-                node = Current;
+                node = current;
             }
-            _current = Current.Next;
+            current = current.Next!;
         }
         return node;
     }
@@ -204,68 +182,79 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
     public bool Remove(T input)
     {
         if (First is null) return false;
+        
         if (Equals(First.Data, input))
         {
-            First = First.Next;
-            return false;
+            First = Find(First)!.Next!;
+            Count--;
+            return true;
         }
         
-        Current = First;
-        while (Current is not null)
+        ISinglyNode<T> current = First;
+        while (current.Next is not null)
         {
-            if (Equals(Current.Data, input))
+            if (Equals(current.Next!.Data, input))
             {
-                Current = Current.Next!;
+                current.Next = Find(current.Next)!.Next;
                 Count--;
                 return true;
             }
             
-            _current = Current.Next;
+            current = current.Next!;
         }
 
-        return false;
+        return true;
     }
-
-    // need to check previous/next
-    // must exist in LinkedList
+    
     public void Remove(ISinglyNode<T> input)
     {
         if (First is null) return;
+
         if (Equals(First, input))
         {
-            First = First.Next;
+            First = input.Next!;
+            Count--;
             return;
         }
         
-        Current = First;
-        while (Current is not null)
+        ISinglyNode<T> current = First;
+        while (current is not null)
         {
-            if (Equals(Current, input))
+            if (Equals(current.Next, input))
             {
-                Current = Current.Next;
+                current.Next = input.Next!;
                 Count--;
                 return;
             }
-            
-            _current = Current.Next;
+            current = current.Next!;
         }
     }
 
     public bool RemoveAll(T input)
     {
+        if (First is null) return false;
+        
         bool found = false;
-
-        Current = First;
-        while(!Equals(Current, Last) || Current is not null)
+        if (Equals(First.Data, input))
         {
-            if (Equals(Current.Data, input))
+            First = Find(First)!.Next!;
+            Count--;
+            found = true;
+            if (First is null) return found;
+        }
+        
+        ISinglyNode<T>? current = First;
+        while(current.Next! is not null)
+        {
+            if (Equals(current.Next!.Data, input))
             {
-                Current = Current.Next;
+                current.Next = Find(current.Next)!.Next;
                 Count--;
                 found = true;
             }
             
-            _current = Current.Next;
+            current = current.Next!;
+            if (current is null) return found;
         }
 
         return found;
@@ -283,25 +272,26 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
         if (First.Next is null)
         {
-            First = Last = Current = null;
+            First = default!;
             Count = 0;
             return;
         }
         
-        Current = First;
-        while(Current.Next is not null)
+        ISinglyNode<T> previous = First;
+        ISinglyNode<T> current = First;
+        while(current.Next is not null)
         {
-            Last = Current;
-            Current = Current.Next;
+            previous = current;
+            current = current.Next;
         }
-        Last.Next = null;
+        previous.Next = null;
         Count--;
     }
 
     public void Clear()
     {
-        _head = _tail = _current = null;
-        _count = 0;
+        First = default!;
+        Count = 0;
     }
     
     public void Merge(ISinglyLinkedList<T> input)
@@ -316,21 +306,21 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
     public void Reverse()
     {
-        ISinglyNode<T> node = Last;
+        ISinglyNode<T> node = First;
     }
 
     private bool AddValidation(ISinglyNode<T> node, ISinglyNode<T> input)
     {
         if (!Exists(node))
         {
-            const string Message = $"{nameof(node)} must belong to this LinkedList.";
-            throw new InvalidOperationException(Message);
+            const string message = $"{nameof(node)} must belong to this LinkedList.";
+            throw new InvalidOperationException(message);
         }
 
         if (IsLinked(input))
         {
-            const string Message1 = $"{nameof(input)} must not be linked to another node.";
-            throw new InvalidOperationException(Message1);
+            const string message = $"{nameof(input)} must not be linked to another node.";
+            throw new InvalidOperationException(message);
         }
 
         return true;
@@ -341,8 +331,8 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
     {
         if (!Exists(input))
         {
-            const string Message1 = $"{nameof(input)} must belong to this LinkedList.";
-            throw new InvalidOperationException(Message1);
+            const string message = $"{nameof(input)} must belong to this LinkedList.";
+            throw new InvalidOperationException(message);
         }
     }
 
@@ -363,25 +353,24 @@ public class SinglyLinkedList<T> : ISinglyLinkedList<T> //where T : class
 
     private bool Exists(ISinglyNode<T> input)
     {
-        var exists = false;
-        ISinglyNode<T> node = First;
-        while(!exists)
+        if (First is null) return false;
+        
+        ISinglyNode<T> current = First;
+        while(current is not null)
         {
-            if (node.Equals(input))
+            if (current.Equals(input))
             {
-                Current = node;
                 return true;
             }
-            node = node.Next!;
+            current = current.Next!;
         }
         return false;
     }
 
-    private bool IsLinked(ISinglyNode<T> input)
+    private bool IsLinked(ISinglyNode<T> node)
     {
-        if (input.Next is null) return false;
-        
-        return (input.Next is not null);
+        if (node.Next is null) return false;
+        return (node.Next is not null);
     }
 
 }

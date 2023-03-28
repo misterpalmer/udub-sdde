@@ -6,9 +6,6 @@ namespace Sdde.Collections.Generic;
 public interface ISinglyLinkedList<T> : IEnumerable<T>
 {
     ISinglyNode<T>? First { get; }
-    ISinglyNode<T>? Last { get; }
-    ISinglyNode<T>? Current { get; }
-    ISinglyNode<T>? Next { get; }
     int Count { get; }
     void AddAfter(ISinglyNode<T> node, T input);
     void AddAfter(ISinglyNode<T> node, ISinglyNode<T> input);

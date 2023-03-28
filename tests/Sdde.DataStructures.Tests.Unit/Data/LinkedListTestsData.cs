@@ -97,7 +97,6 @@ public class LinkedListTestsData
     public static IEnumerable<object[]> PositiveSearchDataMultipleOccurrences =>
         new List<object[]>
         {
-            new object[] { (object) new int[] { 0 }, 0, 1 },
             new object[] { (object) new int[] { 0, 0 }, 0, 2 },
             new object[] { (object) new int[] { 0, 0, 0 }, 0, 3 },
             new object[] { (object) new int[] { 0, 0, 0, 0 }, 0, 4 },
@@ -136,7 +135,5 @@ public class LinkedListTestsData
             new object[] { (object) new bool[] { true, true }, true, 2 },
             new object[] { (object) new bool[] { true, true, true }, true, 3 },
             new object[] { (object) new bool[] { true, false, false, false, true }, true, 2 },
-            new object[] { (object) new bool[] { true, false }, true, 1 },
-            new object[] { (object) new bool[] { true, false, true }, false, 1 },
         };
 }

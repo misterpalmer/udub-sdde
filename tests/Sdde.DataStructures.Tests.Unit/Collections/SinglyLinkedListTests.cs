@@ -40,8 +40,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -73,8 +71,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -105,8 +101,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -138,8 +132,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Next.Should().BeNull();
     }
     
     [Theory]
@@ -170,8 +162,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -203,8 +193,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -235,8 +223,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -268,8 +254,6 @@ public class SinglyLinkedListTests
         actualNodeSum.Should<int>().Be(expectedNodeSum);
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexStart);
-        sut.Last!.Data.Should<int>().Be(indexEnd - 1);
-        sut.Last!.Next.Should().BeNull();  
     }
     
     [Theory]
@@ -287,8 +271,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(3);
         sut.First!.Data.Should().Be(first);
-        sut.Last!.Data.Should().Be(third);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -306,8 +288,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(3);
         sut.First!.Data.Should().Be(first);
-        sut.Last!.Data.Should().Be(third);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -325,8 +305,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(3);
         sut.First!.Data.Should().Be(third);
-        sut.Last!.Data.Should().Be(first);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -344,8 +322,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(3);
         sut.First!.Data.Should().Be(third);
-        sut.Last!.Data.Should().Be(first);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -363,8 +339,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(3);
         sut.First!.Data.Should().Be(third);
-        sut.Last!.Data.Should().Be(second);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -382,8 +356,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(3);
         sut.First!.Data.Should().Be(third);
-        sut.Last!.Data.Should().Be(second);
-        sut.Last!.Next.Should().BeNull();
     }
 
     [Theory]
@@ -399,7 +371,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(values.Count());
         sut.First!.Data.Should().Be(values.First());
-        sut.Last!.Data.Should().Be(values.Last());
     }
 
     [Theory]
@@ -416,7 +387,6 @@ public class SinglyLinkedListTests
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(0);
         sut.First!.Should().BeNull();
-        sut.Last!.Should().BeNull();
     }
 
     [Fact]
@@ -477,14 +447,14 @@ public class SinglyLinkedListTests
 
     [Theory]
     [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveNode_FindValueSingleOccurrence_ReturnsNullLessOne<T>(T[] values, T input, int duplicates)
+    public void RemoveNode_FindValueSingleOccurrence_ReturnsNullLessOne<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
         int expectedNodeCount = values.Length - 1;
         
         // When
-        ISinglyNode<T> node = new SinglyNode<T>(input);
+        ISinglyNode<T> node = sut.Find(input);
         sut.Remove(node);
         var result = sut.Find(input);
 
@@ -496,14 +466,14 @@ public class SinglyLinkedListTests
     
     [Theory]
     [MemberData(nameof(LinkedListTestsData.PositiveSearchDataMultipleOccurrences), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveNode_FindValueMultipleOccurrence_ReturnsNotNullLessOne<T>(T[] values, T input, int duplicates)
+    public void RemoveNode_FindValueMultipleOccurrence_ReturnsNotNullLessOne<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
         int expectedNodeCount = values.Length - 1;
         
         // When
-        ISinglyNode<T> node = new SinglyNode<T>(input);
+        ISinglyNode<T> node = sut.Find(input);
         sut.Remove(node);
         var result = sut.Find(input);
 
@@ -533,7 +503,7 @@ public class SinglyLinkedListTests
     
     [Theory]
     [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveValue_FindValueSingleOccurrence_ReturnsFalse<T>(T[] values, T input, int duplicates)
+    public void RemoveValue_FindValueSingleOccurrence_ReturnsFalse<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
@@ -546,12 +516,12 @@ public class SinglyLinkedListTests
         // Then
         using var scope = new AssertionScope();
         result.Should().BeNull();
-        sut.Count.Should<int>().Equals(expectedNodeCount);
+        sut.Count.Should<int>().Be(expectedNodeCount);
     }
     
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveValue_FindValueMultipleOccurrences_ReturnsNotNullLessOne<T>(T[] values, T input, int duplicates)
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataMultipleOccurrences), MemberType= typeof(LinkedListTestsData))]
+    public void RemoveValue_FindValueMultipleOccurrences_ReturnsNotNullLessOne<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
@@ -564,7 +534,7 @@ public class SinglyLinkedListTests
         // Then
         using var scope = new AssertionScope();
         result.Should().NotBeNull();
-        sut.Count.Should<int>().Equals(expectedNodeCount);
+        sut.Count.Should<int>().Be(expectedNodeCount);
     }
     
     [Theory]
@@ -586,11 +556,11 @@ public class SinglyLinkedListTests
 
     [Theory]
     [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveAllValues_FindValueSingleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input, int duplicates)
+    public void RemoveAllValues_FindValueSingleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - duplicates;
+        int expectedNodeCount = values.Length - occurrences;
         
         // When
         sut.RemoveAll(input);
@@ -598,16 +568,16 @@ public class SinglyLinkedListTests
 
         // Then
         result.Should().BeNull();
-        sut.Count.Should<int>().Equals(expectedNodeCount);
+        sut.Count.Should<int>().Be(expectedNodeCount);
     }
     
     [Theory]
     [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveAllValues_FindValueMultipleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input, int duplicates)
+    public void RemoveAllValues_FindValueMultipleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - duplicates;
+        int expectedNodeCount = values.Length - occurrences;
         
         // When
         sut.RemoveAll(input);
@@ -615,7 +585,7 @@ public class SinglyLinkedListTests
 
         // Then
         result.Should().BeNull();
-        sut.Count.Should<int>().Equals(expectedNodeCount);
+        sut.Count.Should<int>().Be(expectedNodeCount);
     }
     
     [Theory]
@@ -661,12 +631,10 @@ public class SinglyLinkedListTests
         int expectedNodeCount = values.Length - 1;
 
         // When
-        var node = sut.Last;
         sut.RemoveLast();
 
         // Then
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(expectedNodeCount);
-        sut.Last.Should().NotBe(node);
     }
 }
