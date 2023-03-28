@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{D33821A1-1BCF-47C0-B28B-7D768EC8871F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB1460EF-7A38-4A96-B18B-8E4441347C3F} = {CB1460EF-7A38-4A96-B18B-8E4441347C3F}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Build", "01 Build", "{B5022BCF-B525-4440-899D-00A6AB3B44B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Libraries", "02 Libraries", "{AAE7F32B-0E16-4EB2-8D0C-A87777921F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdde.BuildComponents", "source\Sdde.BuildComponents\Sdde.BuildComponents.csproj", "{CB1460EF-7A38-4A96-B18B-8E4441347C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdde.DataStructures", "source\Sdde.DataStructures\Sdde.DataStructures.csproj", "{8F1D4903-00B8-49E5-A96F-D738AAC84A76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdde.DataStructures.Tests.Unit", "tests\Sdde.DataStructures.Tests.Unit\Sdde.DataStructures.Tests.Unit.csproj", "{2501BF8F-2DFC-4A83-B997-E43419055638}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 Tests", "03 Tests", "{DB5933C3-0DBC-4F46-8FA2-48BEF6DF1074}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D33821A1-1BCF-47C0-B28B-7D768EC8871F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D33821A1-1BCF-47C0-B28B-7D768EC8871F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB1460EF-7A38-4A96-B18B-8E4441347C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB1460EF-7A38-4A96-B18B-8E4441347C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB1460EF-7A38-4A96-B18B-8E4441347C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB1460EF-7A38-4A96-B18B-8E4441347C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F1D4903-00B8-49E5-A96F-D738AAC84A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F1D4903-00B8-49E5-A96F-D738AAC84A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F1D4903-00B8-49E5-A96F-D738AAC84A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F1D4903-00B8-49E5-A96F-D738AAC84A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2501BF8F-2DFC-4A83-B997-E43419055638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2501BF8F-2DFC-4A83-B997-E43419055638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2501BF8F-2DFC-4A83-B997-E43419055638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2501BF8F-2DFC-4A83-B997-E43419055638}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D33821A1-1BCF-47C0-B28B-7D768EC8871F} = {B5022BCF-B525-4440-899D-00A6AB3B44B3}
+		{CB1460EF-7A38-4A96-B18B-8E4441347C3F} = {B5022BCF-B525-4440-899D-00A6AB3B44B3}
+		{8F1D4903-00B8-49E5-A96F-D738AAC84A76} = {AAE7F32B-0E16-4EB2-8D0C-A87777921F1D}
+		{2501BF8F-2DFC-4A83-B997-E43419055638} = {DB5933C3-0DBC-4F46-8FA2-48BEF6DF1074}
+	EndGlobalSection
+EndGlobal

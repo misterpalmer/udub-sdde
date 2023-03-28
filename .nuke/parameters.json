@@ -1,0 +1,5 @@
+{
+  "$schema": "./build.schema.json",
+  "Configuration": "Debug",
+  "Solution": "Sdde.sln"
+}

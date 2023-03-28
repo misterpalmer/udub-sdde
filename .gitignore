@@ -1,0 +1,91 @@
+﻿external
+nuke-global.*
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+!build/
+
+
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+[Bb]in/
+[Oo]bj/
+
+
+# Local History for Visual Studio Code
+.history/
+.ionide/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+
+# Code Coverage
+[Tt]est[Rr]esults/
+
+# Build results
+[Tt]emp/
+/output
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+msbuild.log
+msbuild.err
+msbuild.wrn
+.builds
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.log
+*.vspscc
+*.vssscc
+
+# NuGet Packages Directory
+packages
+
+# IDEs
+.idea
+.vs
+_ReSharper*
+_dotTrace*
+
+.DS_Store
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.cache
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/modules.xml
+/contentModel.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
