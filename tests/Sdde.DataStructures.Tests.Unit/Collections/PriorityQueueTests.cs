@@ -17,30 +17,30 @@ public class PriorityQueueTests
     public void AirportNames()
     {
         // Arrange
-        var items = new List<(PriorityNode Priority, (string Departure, string Destination) Flight)>()
+        var items = new List<(TravelDistance Distance, (string Departure, string Arrival) Flight)>()
         {
-            (new PriorityNode(7),(Departure: "Seattle", Destination: "Bozeman")) ,
-            (new PriorityNode(6),(Departure: "Bozeman", Destination: "Denver")),
-            (new PriorityNode(20),(Departure: "Bozeman", Destination: "Dallas")),
-            (new PriorityNode(3),(Departure: "Bozeman", Destination: "Salt Lake City")),
-            (new PriorityNode(14),(Departure: "Denver", Destination: "Dallas")),
-            (new PriorityNode(2),(Departure: "Dallas", Destination: "Salt Lake City")),
-            (null!, (Departure: "London", Destination: "London"))
+            (new TravelDistance(7),(Departure: "Seattle", Arrival: "Bozeman")) ,
+            (new TravelDistance(6),(Departure: "Bozeman", Arrival: "Denver")),
+            (new TravelDistance(20),(Departure: "Bozeman", Arrival: "Dallas")),
+            (new TravelDistance(3),(Departure: "Bozeman", Arrival: "Salt Lake City")),
+            (new TravelDistance(14),(Departure: "Denver", Arrival: "Dallas")),
+            (new TravelDistance(2),(Departure: "Dallas", Arrival: "Salt Lake City")),
+            (null!, (Departure: "London", Arrival: "London"))
         };
 
         var expect = new List<(string, string)>()
         {
-            ( items[6].Flight.Departure, items[6].Flight.Destination ),
-            ( items[5].Flight.Departure, items[5].Flight.Destination ),
-            ( items[3].Flight.Departure, items[3].Flight.Destination ),
-            ( items[1].Flight.Departure, items[1].Flight.Destination ),
-            ( items[0].Flight.Departure, items[0].Flight.Destination ),
-            ( items[4].Flight.Departure, items[4].Flight.Destination ),
-            ( items[2].Flight.Departure, items[2].Flight.Destination ),
+            ( items[6].Flight.Departure, items[6].Flight.Arrival ),
+            ( items[5].Flight.Departure, items[5].Flight.Arrival ),
+            ( items[3].Flight.Departure, items[3].Flight.Arrival ),
+            ( items[1].Flight.Departure, items[1].Flight.Arrival ),
+            ( items[0].Flight.Departure, items[0].Flight.Arrival ),
+            ( items[4].Flight.Departure, items[4].Flight.Arrival ),
+            ( items[2].Flight.Departure, items[2].Flight.Arrival ),
         };
 
-        var queue = Sddex.PriorityQueue.Create(items, i => i.Priority, PriorityNode.PriorityNodeComparer.Instance);
-        List<(string Departure, string Destination)> result = new();
+        var queue = Sddex.PriorityQueue.Create(items, i => i.Distance, TravelDistance.TravelDistanceComparer.Comparer);
+        List<(string Departure, string Arrival)> result = new();
 
         // Act
         while (!queue.IsEmpty)
@@ -53,21 +53,21 @@ public class PriorityQueueTests
         result.Should().BeEquivalentTo(expect);
     }
 
-    public class PriorityNode
+    public class TravelDistance
     {
-        public int Priority { get; set; }
+        public int Distance { get; set; }
         
-        public PriorityNode(int priority)
+        public TravelDistance(int distance)
         {
-            this.Priority = priority;
+            this.Distance = distance;
         }
 
-        public class PriorityNodeComparer : Comparer<PriorityNode>
+        public class TravelDistanceComparer : Comparer<TravelDistance>
         {
-            public static PriorityNodeComparer Instance { get; } = new PriorityNodeComparer(); 
-            public override int Compare(PriorityNode x, PriorityNode y)
+            public static TravelDistanceComparer Comparer { get; } = new TravelDistanceComparer(); 
+            public override int Compare(TravelDistance x, TravelDistance y)
             {
-                var result = (x?.Priority ?? 0) - (y?.Priority ?? 0);
+                var result = (x?.Distance ?? 0) - (y?.Distance ?? 0);
                 return result;
             }
         }

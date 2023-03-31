@@ -6,31 +6,31 @@ namespace Sdde.Collections.Generic;
 public class PriorityQueue<TItem, TPriority> : IEnumerable<TItem>
 {
     private readonly IComparer<TPriority>? _comparer;
-    private readonly SortedDictionary<Tuple<TPriority>, Queue<TItem>> data;
-
-    public SortedDictionary<Tuple<TPriority>, Queue<TItem>> Data => data;
+    private readonly SortedDictionary<Tuple<TPriority>, Queue<TItem>> _data;
     private readonly Func<TItem, TPriority> PriorityGetter;
+    
+    public int Count => _data.Count;
+    public bool IsEmpty => _data.Count == 0;
+    Tuple<TPriority> T(TPriority priority)
+    {
+        return Tuple.Create(priority);
+    }
+    public SortedDictionary<Tuple<TPriority>, Queue<TItem>> Data => _data;
+
 
     public PriorityQueue(Func<TItem, TPriority> priority, IEnumerable<TItem>? items = null, IComparer<TPriority>? comparer = null)
     {
         PriorityGetter = priority;
         var priorityQueueNodecomparer = new PriorityQueueNodeComparer<TPriority>(comparer!) ?? null;
-        data = new SortedDictionary<Tuple<TPriority>, Queue<TItem>>(priorityQueueNodecomparer);
+        _data = new SortedDictionary<Tuple<TPriority>, Queue<TItem>>(priorityQueueNodecomparer);
         EnqueueRange(items!);
     }
 
-    public int Count => data.Count;
-
-    public bool IsEmpty => data.Count == 0;
-
-    Tuple<TPriority> T(TPriority priority)
-    {
-        return Tuple.Create(priority);
-    }
+    
 
     public TItem Peek()
     {
-        if (Data.Count == 0)
+        if (IsEmpty)
             throw new InvalidOperationException("The queue is empty");
         return Data.First().Value.Peek();
     }
