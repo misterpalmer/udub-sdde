@@ -14,14 +14,15 @@ public class FlightPathTests
     }
 
     [Fact]
-    public void AirportNames()
+    public void AddPathWithDistance_DequeueWithDuplicate_SortedByShortestPath()
     {
         // Arrange
         var items = new List<(TravelDistance Distance, (string Departure, string Arrival) Flight)>()
         {
-            (new TravelDistance(7),(Departure: "Seattle", Arrival: "Bozeman")) ,
+            (new TravelDistance(7),(Departure: "Seattle", Arrival: "Bozeman")),
             (new TravelDistance(6),(Departure: "Bozeman", Arrival: "Denver")),
             (new TravelDistance(20),(Departure: "Bozeman", Arrival: "Dallas")),
+            (new TravelDistance(20),(Departure: "Dallas", Arrival: "New York City")),
             (new TravelDistance(3),(Departure: "Bozeman", Arrival: "Salt Lake City")),
             (new TravelDistance(14),(Departure: "Denver", Arrival: "Dallas")),
             (new TravelDistance(2),(Departure: "Dallas", Arrival: "Salt Lake City")),
@@ -30,16 +31,17 @@ public class FlightPathTests
 
         var expect = new List<(string, string)>()
         {
+            ( items[7].Flight.Departure, items[7].Flight.Arrival ),
             ( items[6].Flight.Departure, items[6].Flight.Arrival ),
-            ( items[5].Flight.Departure, items[5].Flight.Arrival ),
-            ( items[3].Flight.Departure, items[3].Flight.Arrival ),
+            ( items[4].Flight.Departure, items[4].Flight.Arrival ),
             ( items[1].Flight.Departure, items[1].Flight.Arrival ),
             ( items[0].Flight.Departure, items[0].Flight.Arrival ),
-            ( items[4].Flight.Departure, items[4].Flight.Arrival ),
+            ( items[5].Flight.Departure, items[5].Flight.Arrival ),
             ( items[2].Flight.Departure, items[2].Flight.Arrival ),
+            ( items[3].Flight.Departure, items[3].Flight.Arrival ),
         };
 
-        var queue = Sddex.PriorityQueue.Create(items, i => i.Distance, TravelDistance.TravelDistanceComparer.Comparer);
+        var queue = Sddex.PriorityQueue.Create(items, i => i.Distance, TravelDistance.ShortestFlightDistance.Comparer);
         List<(string Departure, string Arrival)> result = new();
 
         // Act
@@ -62,10 +64,10 @@ public class FlightPathTests
             this.Distance = distance;
         }
 
-        public class TravelDistanceComparer : Comparer<TravelDistance>
+        public class ShortestFlightDistance : Comparer<TravelDistance>
         {
-            public static TravelDistanceComparer Comparer { get; } = new TravelDistanceComparer(); 
-            public override int Compare(TravelDistance x, TravelDistance y)
+            public static ShortestFlightDistance Comparer { get; } = new ShortestFlightDistance(); 
+            public override int Compare(TravelDistance? x, TravelDistance? y)
             {
                 var result = (x?.Distance ?? 0) - (y?.Distance ?? 0);
                 return result;
