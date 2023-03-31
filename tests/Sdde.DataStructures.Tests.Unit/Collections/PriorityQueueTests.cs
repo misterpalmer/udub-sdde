@@ -5,10 +5,10 @@ using Sdde.DataStructures.Tests.Unit.Data;
 
 namespace Sdde.Collections.Generic.Tests.Unit;
 
-public class PriorityQueueTests
+public class FlightPathTests
 {
     private readonly ITestOutputHelper output;
-    public PriorityQueueTests(ITestOutputHelper output)
+    public FlightPathTests(ITestOutputHelper output)
     {
         this.output = output;
     }
