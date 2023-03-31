@@ -7,11 +7,11 @@ public class PriorityQueueNodeComparer<T> : IComparer<Tuple<T>>
     
     public PriorityQueueNodeComparer(IComparer<T> source)
     {
-        this.Source = source??Comparer<T>.Default;
+        this.Source = source ?? Comparer<T>.Default;
     }
 
-    public int Compare(Tuple<T> x, Tuple<T> y)
+    public int Compare(Tuple<T>? x, Tuple<T>? y)
     {
-        return Source.Compare(x.Item1, y.Item1);
+        return Source.Compare(x!.Item1, y!.Item1);
     }
 }

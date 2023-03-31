@@ -5,7 +5,7 @@ namespace Sdde.Collections.Generic;
 
 public class PriorityQueue<TItem, TPriority> : IEnumerable<TItem>
 {
-    private readonly IComparer<TPriority>? _comparer;
+    private readonly IComparer<Tuple<TPriority>>? _comparer;
     private readonly SortedDictionary<Tuple<TPriority>, Queue<TItem>> _data;
     private readonly Func<TItem, TPriority> PriorityGetter;
     
@@ -21,17 +21,15 @@ public class PriorityQueue<TItem, TPriority> : IEnumerable<TItem>
     public PriorityQueue(Func<TItem, TPriority> priority, IEnumerable<TItem>? items = null, IComparer<TPriority>? comparer = null)
     {
         PriorityGetter = priority;
-        var priorityQueueNodecomparer = new PriorityQueueNodeComparer<TPriority>(comparer!) ?? null;
-        _data = new SortedDictionary<Tuple<TPriority>, Queue<TItem>>(priorityQueueNodecomparer);
+        _comparer = new PriorityQueueNodeComparer<TPriority>(comparer!) ?? null;
+        _data = new SortedDictionary<Tuple<TPriority>, Queue<TItem>>(_comparer);
         EnqueueRange(items!);
     }
-
     
 
     public TItem Peek()
     {
-        if (IsEmpty)
-            throw new InvalidOperationException("The queue is empty");
+        if (IsEmpty) throw new InvalidOperationException("The queue is empty");
         return Data.First().Value.Peek();
     }
     
@@ -75,8 +73,12 @@ public class PriorityQueue<TItem, TPriority> : IEnumerable<TItem>
     public IEnumerator<TItem> GetEnumerator()
     {
         foreach (var kvp in Data)
-                foreach (var item in kvp.Value)
-                    yield return item;
+        {
+            foreach (var item in kvp.Value)
+            {
+                yield return item;
+            }
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -88,7 +90,7 @@ public class PriorityQueue<TItem, TPriority> : IEnumerable<TItem>
 
 public static class PriorityQueue
 {
-    public static PriorityQueue<T, TPriority> Create<T, TPriority>(IEnumerable<T> items, Func<T, TPriority> priority, IComparer<TPriority>? comparer = null)
+    public static PriorityQueue<T, TPriority> Create<T, TPriority>(Func<T, TPriority> priority, IEnumerable<T> items, IComparer<TPriority>? comparer = null)
     {
         return new PriorityQueue<T, TPriority>(priority, items, comparer);
     }
