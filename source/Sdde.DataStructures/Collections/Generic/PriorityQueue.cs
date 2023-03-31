@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Sdde.Interfaces;
+using System.Linq;
 
 namespace Sdde.Collections.Generic;
 
@@ -72,13 +73,9 @@ public class PriorityQueue<TItem, TPriority> : IEnumerable<TItem>
     
     public IEnumerator<TItem> GetEnumerator()
     {
-        foreach (var kvp in Data)
-        {
-            foreach (var item in kvp.Value)
-            {
-                yield return item;
-            }
-        }
+        return (IEnumerator<TItem>)(from kvp in Data
+               from item in kvp.Value
+               select item);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
