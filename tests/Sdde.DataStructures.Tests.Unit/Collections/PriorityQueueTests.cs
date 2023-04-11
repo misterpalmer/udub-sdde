@@ -41,7 +41,9 @@ public class FlightPathTests
             ( items[3].Flight.Departure, items[3].Flight.Arrival ),
         };
 
-        var queue = Sddex.PriorityQueue.Create(trip => trip.Distance, items, TravelDistance.ShortestFlightDistance.Comparer);
+        var queue = Sddex.PriorityQueue.Create(trip => trip.Distance,
+            items,
+            TravelDistance.ShortestFlightDistance.Comparer);
         List<(string Departure, string Arrival)> result = new();
 
         // Act
