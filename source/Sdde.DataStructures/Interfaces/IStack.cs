@@ -5,8 +5,10 @@ namespace Sdde.Collections.Generic;
 
 public interface IStack<T>
 {
+    int Count { get; }
     void Clear();
     bool Contains(T item);
+    void CopyTo(Array array, int index);
     void CopyTo(T[] array, int arrayIndex);
     int EnsureCapacity(int capacity);
     T Peek();
