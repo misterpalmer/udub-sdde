@@ -18,7 +18,7 @@ public interface IPublish : IPack, ITest
     [Parameter] [Secret] string NuGetApiKey => TryGetValue(() => NuGetApiKey);
 
     Target Publish => _ => _
-        .DependsOn(Test, Pack)
+        .DependsOn(UnitTest, Pack)
         .Requires(() => NuGetApiKey)
         // .Requires(() => GitHasCleanWorkingCopy())
         .Executes(() =>
