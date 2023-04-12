@@ -22,12 +22,13 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
     [Parameter] [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
 
     AbsolutePath CoverageReportDirectory => ReportDirectory / "coverage-report";
-    AbsolutePath CoverageReportArchive => CoverageReportDirectory.WithExtension("zip");
+    // AbsolutePath CoverageReportArchive => CoverageReportDirectory.WithExtension("zip");
+    AbsolutePath CoverageReportArchive => CoverageReportDirectory / "coverage-report.zip";
 
     Target ReportCoverage => _ => _
-        .DependsOn(Test)
+        .DependsOn(UnitTest)
         .TryAfter<ITest>()
-        .Consumes(Test)
+        .Consumes(UnitTest)
         .Produces(CoverageReportArchive)
         .Requires(() => !ReportToCodecov || CodecovToken != null)
         .Executes(() =>

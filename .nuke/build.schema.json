@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$ref": "#/definitions/build",
   "title": "Build Schema",
+  "$ref": "#/definitions/build",
   "definitions": {
     "build": {
       "type": "object",
@@ -83,7 +83,8 @@
               "Clean",
               "Compile",
               "Pack",
-              "Restore"
+              "Restore",
+              "UnitTest"
             ]
           }
         },
@@ -100,7 +101,8 @@
               "Clean",
               "Compile",
               "Pack",
-              "Restore"
+              "Restore",
+              "UnitTest"
             ]
           }
         },
