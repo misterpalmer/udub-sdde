@@ -14,7 +14,9 @@ using static Nuke.Common.IO.PathConstruction;
 
 
 using Sdde.BuildComponents;
-public partial class Build : NukeBuild, IPack, IRestore, ICompile
+using System.Collections.Generic;
+
+public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile
 {
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
@@ -22,20 +24,22 @@ public partial class Build : NukeBuild, IPack, IRestore, ICompile
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => ((IPack)x).Pack);
+    // public static int Main () => Execute<Build>(x => ((IPack)x).Pack);
+    public static int Main () => Execute<Build>(x => ((ITest)x).UnitTest);
+    // public static int Main () => Execute<Build>(x => ((ICompile)x).Compile);
 
     // [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     // readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-    
-    [CI] readonly GitHubActions GitHubActions;
+
+    [CI] GitHubActions GitHubActions => GitHubActions.Instance;
 
     Target Clean => _ => _
         .Before<IRestore>()
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("*/bin", "*/obj").DeleteDirectories();
-            OutputDirectory.CreateOrCleanDirectory();
+            // SourceDirectory.GlobDirectories("*/bin", "*/obj").DeleteDirectories();
+            // OutputDirectory.CreateOrCleanDirectory();
         });
 
-    
+    IEnumerable<Nuke.Common.ProjectModel.Project> ITest.TestProjects => Partition.GetCurrent(Solution.GetProjects("*.Tests.*"));
 }
