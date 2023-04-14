@@ -16,6 +16,7 @@ partial class Build : IHasSolution
     const string DevelopBranch = "develop";
     const string ReleaseBranchPrefix = "release";
     const string FeatureBranchPrefix = "feature";
+    const string IssueBranchPrefix = "issue";
     const string HotFixBranchPrefix = "hotfix";
     const string SupportBranchPrefix = "support";
     const string NuGetOrgSource = "https://api.nuget.org/v3/index.json";
@@ -23,13 +24,13 @@ partial class Build : IHasSolution
     T From<T>() where T : INukeBuild => (T)(object)this;
 
     AbsolutePath SourceDirectory => RootDirectory / "source";
-    AbsolutePath OutputDirectory => RootDirectory / "output";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
-    AbsolutePath ImagesDirectory => RootDirectory / "images";
+    AbsolutePath OutputDirectory => RootDirectory / "output";
+    AbsolutePath ArtifactsDirectory => OutputDirectory / "artifacts";
+    AbsolutePath CoverageReportDirectory => OutputDirectory / "coberage-reports";
     AbsolutePath PackagesDirectory => OutputDirectory / "packages";
     AbsolutePath TestResultDirectory => OutputDirectory / "test-results";
-    AbsolutePath CoverageReportDirectory => OutputDirectory / "coberage-reports";
-    // AbsolutePath ArtifactsDirectory => PackagesDirectory / "artifacts";
+    AbsolutePath ImagesDirectory => RootDirectory / "images";
     AbsolutePath ReleaseImageFile => ImagesDirectory / "release-image.png";
     AbsolutePath WatermarkImageFile => ImagesDirectory / "logo-watermark.png";
 

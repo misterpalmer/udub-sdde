@@ -28,7 +28,7 @@ public class LinkedListTestsData
                 new object[] { (object) new bool[] { true, false } },
                 new object[] { (object) new bool[] { true, true, true } },
             };
-    
+
     public static IEnumerable<object[]> ThreeNodeData =>
         new List<object[]>
             {
@@ -57,7 +57,7 @@ public class LinkedListTestsData
                 new object[] { (object) new bool[] { true, true }, false },
                 new object[] { (object) new bool[] { true, true, true }, false },
             };
-    
+
     public static IEnumerable<object[]> PositiveSearchDataSingleOccurrence =>
         new List<object[]>
         {
@@ -93,7 +93,7 @@ public class LinkedListTestsData
             new object[] { (object) new bool[] { false, true, false }, true, 1 },
             new object[] { (object) new bool[] { false, false, false, false, true }, true, 1 },
         };
-    
+
     public static IEnumerable<object[]> PositiveSearchDataMultipleOccurrences =>
         new List<object[]>
         {
@@ -105,7 +105,7 @@ public class LinkedListTestsData
             new object[] { (object) new int[] { 1, 2, 3, 4, 1 }, 1, 2 },
             new object[] { (object) new int[] { 1, 2, 1, 4, 1 }, 1, 3 },
             new object[] { (object) new int[] { 1, 1, 1, 4, 5 }, 1, 3 },
-            new object[] { new string[] { "zero", "Zero", "One", "Two", "Three", "Four", "Five" }, "zero", 1 },
+            new object[] { new string[] { "zero", "Zero", "zero", "One", "zero", "Two", "zero", "Three", "zero", "Four", "zero", "Five" }, "zero", 6 },
             new object[] { new string[] { "STACK", "stack", "linked", "list", "node", "stack", "STACK" }, "STACK", 2 },
             new object[]
             {
@@ -131,7 +131,6 @@ public class LinkedListTestsData
                 "heap",
                 4
             },
-            new object[] { (object) new bool[] { true }, true, 1 },
             new object[] { (object) new bool[] { true, true }, true, 2 },
             new object[] { (object) new bool[] { true, true, true }, true, 3 },
             new object[] { (object) new bool[] { true, false, false, false, true }, true, 2 },

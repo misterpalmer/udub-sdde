@@ -12,29 +12,27 @@ public class HashTableTests
         _output = output;
     }
 
-    [Fact]
-    public void FirstTest()
-    {
-        throw new NotImplementedException();
-    }
+//     [Fact]
+//     public void FirstTest()
+//     {
+//         throw new NotImplementedException();
+//     }
 
-    [Fact]
-    public void SecondTest()
-    {
-        throw new NotImplementedException();
-    }
+//     [Fact]
+//     public void SecondTest()
+//     {
+//         throw new NotImplementedException();
+//     }
 
-    [Fact]
-    public void ThirdTest()
-    {
-        throw new NotImplementedException();
-    }
+//     [Fact]
+//     public void ThirdTest()
+//     {
+//         throw new NotImplementedException();
+//     }
 
-    [Fact]
-    public void FirstTheory()
-    {
-        throw new NotImplementedException();
-    }
-    
-
+//     [Fact]
+//     public void FirstTheory()
+//     {
+//         throw new NotImplementedException();
+//     }
 }

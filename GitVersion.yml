@@ -68,6 +68,26 @@ branches:
       - main
       - release
       - feature
+      - issue
+      - support
+      - hotfix
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 30000
+  issue:
+    mode: ContinuousDelivery
+    tag: useBranchName
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    regex: ^features?[/-]
+    source-branches:
+      - develop
+      - main
+      - release
+      - feature
+      - issue
       - support
       - hotfix
     tracks-release-branches: false
@@ -87,6 +107,7 @@ branches:
       - main
       - release
       - feature
+      - issue
       - support
       - hotfix
     tracks-release-branches: false
