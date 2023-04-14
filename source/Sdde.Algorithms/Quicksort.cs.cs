@@ -51,6 +51,7 @@ public class Quicksort
         array[left] = array[right];
         array[right] = temp;
     }
+<<<<<<< HEAD
 
     private static void Sort(int[] array, int left, int right)
     {
@@ -96,4 +97,6 @@ public class Quicksort
         array[left] = array[right];
         array[right] = temp;
     }
+=======
+>>>>>>> 4aec809f2b73e6e63e089f45db0b154940197a18
 }
