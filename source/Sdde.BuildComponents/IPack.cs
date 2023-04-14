@@ -21,10 +21,10 @@ public interface IPack : INukeBuild, ICompile, IHasArtifacts
                 .Apply(PackSettingsBase)
                 .Apply(PackSettings));
 
-            // ReportSummary(_ => _
-            //     .AddPair("Packages", PackagesDirectory.GlobFiles("*.nupkg").Count.ToString()));
+            ReportSummary(_ => _
+                .AddPair("Packages", PackagesDirectory.GlobFiles("*.nupkg").Count.ToString()));
         });
-    
+
     sealed Configure<DotNetPackSettings> PackSettingsBase => _ => _
         .SetProject(Solution)
         .SetConfiguration(Configuration)

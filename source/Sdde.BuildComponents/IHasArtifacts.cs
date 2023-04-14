@@ -7,5 +7,5 @@ public interface IHasArtifacts : INukeBuild
 {
     AbsolutePath OutputDirectory => RootDirectory / "output";
     AbsolutePath PackagesDirectory => OutputDirectory / "packages";
-    AbsolutePath ArtifactsDirectory => PackagesDirectory / "artifacts";
+    AbsolutePath ArtifactsDirectory => OutputDirectory / "artifacts";
 }

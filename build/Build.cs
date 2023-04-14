@@ -37,8 +37,11 @@ public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile
         .Before<IRestore>()
         .Executes(() =>
         {
-            // SourceDirectory.GlobDirectories("*/bin", "*/obj").DeleteDirectories();
-            // OutputDirectory.CreateOrCleanDirectory();
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            OutputDirectory.GlobDirectories("**/artifacts", "**/coberage-reports", "**/packages", "**/test-results").ForEach(DeleteDirectory);
+            TemporaryDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+
         });
 
     IEnumerable<Nuke.Common.ProjectModel.Project> ITest.TestProjects => Partition.GetCurrent(Solution.GetProjects("*.Tests.*"));
