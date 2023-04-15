@@ -85,6 +85,15 @@ public interface ITest : INukeBuild, IPack, IHasArtifacts
             .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
             .SetExcludeByFile("*.Generated.cs")
             .When(IsServerBuild, _ => _
+                .EnableUseSourceLink()))
+        .SetResultsDirectory(TestResultDirectory)
+        .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
+            .EnableCollectCoverage()
+            .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
+            .SetExcludeByFile("*.Generated.cs")
+            .When(TeamCity.Instance is not null, _ => _
+                .SetCoverletOutputFormat($"\\\"{CoverletOutputFormat.cobertura},{CoverletOutputFormat.teamcity}\\\""))
+            .When(IsServerBuild, _ => _
                 .EnableUseSourceLink()));
 
     sealed Configure<DotNetTestSettings, Project> TestProjectSettingsBase => (_, v) => _
@@ -92,9 +101,14 @@ public interface ITest : INukeBuild, IPack, IHasArtifacts
         // https://github.com/Tyrrrz/GitHubActionuke :nsTestLogger
         .When(GitHubActions.Instance is not null && v.HasPackageReference("GitHubActionsTestLogger"), _ => _
             .AddLoggers("GitHubActions;report-warnings=false"))
-        .AddLoggers($"trx;LogFileName={v.Name}.trx")
-        .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
-            .SetCoverletOutput(TestResultDirectory / $"{v.Name}.xml"));
+        // https://github.com/JetBrains/TeamCity.VSTest.TestAdapter
+        .When(TeamCity.Instance is not null && v.HasPackageReference("TeamCity.VSTest.TestAdapter"), _ => _
+            .AddLoggers("TeamCity")
+            // https://github.com/xunit/visualstudio.xunit/pull/108
+            .AddRunSetting("RunConfiguration.NoAutoReporters", bool.TrueString))
+        .AddLoggers($"trx;LogFileName={v.Name}.trx");
+        // .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
+        //     .SetCoverletOutput(TestResultDirectory / $"{v.Name}.xml"));
 
     Configure<DotNetTestSettings> TestSettings => _ => _;
     Configure<DotNetTestSettings, Project> TestProjectSettings => (_, v) => _;
