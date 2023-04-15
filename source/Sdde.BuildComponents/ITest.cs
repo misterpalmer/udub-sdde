@@ -94,6 +94,15 @@ public interface ITest : INukeBuild, IPack, IHasArtifacts
             .When(TeamCity.Instance is not null, _ => _
                 .SetCoverletOutputFormat($"\\\"{CoverletOutputFormat.cobertura},{CoverletOutputFormat.teamcity}\\\""))
             .When(IsServerBuild, _ => _
+                .EnableUseSourceLink()))
+        .SetResultsDirectory(TestResultDirectory)
+        .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
+            .EnableCollectCoverage()
+            .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
+            .SetExcludeByFile("*.Generated.cs")
+            .When(TeamCity.Instance is not null, _ => _
+                .SetCoverletOutputFormat($"\\\"{CoverletOutputFormat.cobertura},{CoverletOutputFormat.teamcity}\\\""))
+            .When(IsServerBuild, _ => _
                 .EnableUseSourceLink()));
 
     sealed Configure<DotNetTestSettings, Project> TestProjectSettingsBase => (_, v) => _
