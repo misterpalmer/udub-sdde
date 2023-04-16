@@ -14,14 +14,14 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 namespace Sdde.BuildComponents;
 
 [PublicAPI]
-public interface ITest : INukeBuild, IPack, IHasArtifacts
+public interface ITest : INukeBuild, ICompile, IHasArtifacts
 {
     AbsolutePath TestResultDirectory => OutputDirectory / "test-results";
 
     int TestDegreeOfParallelism => 1;
 
     Target UnitTest => _ => _
-        .DependsOn(Pack)
+        .DependsOn(Compile)
         .Produces(TestResultDirectory / "*.trx")
         .Produces(TestResultDirectory / "*.xml")
         .Executes(() =>
@@ -80,42 +80,34 @@ public interface ITest : INukeBuild, IPack, IHasArtifacts
         .SetNoBuild(SucceededTargets.Contains(Compile))
         .ResetVerbosity()
         .SetResultsDirectory(TestResultDirectory)
-        .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
-            .EnableCollectCoverage()
-            .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-            .SetExcludeByFile("*.Generated.cs")
-            .When(IsServerBuild, _ => _
-                .EnableUseSourceLink()))
-        .SetResultsDirectory(TestResultDirectory)
-        .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
-            .EnableCollectCoverage()
-            .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-            .SetExcludeByFile("*.Generated.cs")
-            .When(TeamCity.Instance is not null, _ => _
-                .SetCoverletOutputFormat($"\\\"{CoverletOutputFormat.cobertura},{CoverletOutputFormat.teamcity}\\\""))
-            .When(IsServerBuild, _ => _
-                .EnableUseSourceLink()))
-        .SetResultsDirectory(TestResultDirectory)
-        .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
-            .EnableCollectCoverage()
-            .SetCoverletOutputFormat(CoverletOutputFormat.cobertura)
-            .SetExcludeByFile("*.Generated.cs")
-            .When(TeamCity.Instance is not null, _ => _
-                .SetCoverletOutputFormat($"\\\"{CoverletOutputFormat.cobertura},{CoverletOutputFormat.teamcity}\\\""))
-            .When(IsServerBuild, _ => _
-                .EnableUseSourceLink()));
+        .SetDataCollector("XPlat Code Coverage")
+        .EnableCollectCoverage()
+        .SetCoverletOutputFormat(CoverletOutputFormat.cobertura);
+
+        // .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
+        //     .EnableCollectCoverage()
+        //     .SetDataCollector("XPlat Code Coverage")
+        //     .SetCoverletOutputFormat(CoverletOutputFormat.opencover)
+        //     .SetResultsDirectory(TestResultDirectory)
+        //     .SetExcludeByFile("*.Generated.cs")
+        //     .When(IsServerBuild, _ => _
+        //         .EnableUseSourceLink()));
 
     sealed Configure<DotNetTestSettings, Project> TestProjectSettingsBase => (_, v) => _
-        .SetProjectFile(v)
+        .SetProjectFile(v);
+        // .AddLoggers($"trx;LogFileName={v.Name}.trx")
+        // .AddLoggers($"xunit;LogFilePath={TestResultDirectory}/{v.Name}.xml");
+
         // https://github.com/Tyrrrz/GitHubActionuke :nsTestLogger
-        .When(GitHubActions.Instance is not null && v.HasPackageReference("GitHubActionsTestLogger"), _ => _
-            .AddLoggers("GitHubActions;report-warnings=false"))
-        // https://github.com/JetBrains/TeamCity.VSTest.TestAdapter
-        .When(TeamCity.Instance is not null && v.HasPackageReference("TeamCity.VSTest.TestAdapter"), _ => _
-            .AddLoggers("TeamCity")
-            // https://github.com/xunit/visualstudio.xunit/pull/108
-            .AddRunSetting("RunConfiguration.NoAutoReporters", bool.TrueString))
-        .AddLoggers($"trx;LogFileName={v.Name}.trx");
+        // .When(GitHubActions.Instance is not null && v.HasPackageReference("GitHubActionsTestLogger"), _ => _
+        //     .AddLoggers("GitHubActions;report-warnings=false"))
+        // // https://github.com/JetBrains/TeamCity.VSTest.TestAdapter
+        // .When(TeamCity.Instance is not null && v.HasPackageReference("TeamCity.VSTest.TestAdapter"), _ => _
+        //     .AddLoggers("TeamCity")
+        //     // https://github.com/xunit/visualstudio.xunit/pull/108
+        //     .AddRunSetting("RunConfiguration.NoAutoReporters", bool.TrueString))
+        // // .AddLoggers($"trx;LogFileName={v.Name}.trx")
+        // // .AddLoggers($"xunit;LogFilePath={TestResultDirectory}/{v.Name}.xml")
         // .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
         //     .SetCoverletOutput(TestResultDirectory / $"{v.Name}.xml"));
 

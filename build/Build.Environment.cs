@@ -27,8 +27,11 @@ partial class Build : IHasSolution
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath OutputDirectory => RootDirectory / "output";
     AbsolutePath ArtifactsDirectory => OutputDirectory / "artifacts";
-    AbsolutePath CoverageReportDirectory => OutputDirectory / "coberage-reports";
+    AbsolutePath CoverageReportDirectory => OutputDirectory / "coverage-reports";
+    AbsolutePath DocumentationDirectory => OutputDirectory / "documentation";
     AbsolutePath PackagesDirectory => OutputDirectory / "packages";
+    AbsolutePath ReportDirectory => OutputDirectory / "reports";
+
     AbsolutePath TestResultDirectory => OutputDirectory / "test-results";
     AbsolutePath ImagesDirectory => RootDirectory / "images";
     AbsolutePath ReleaseImageFile => ImagesDirectory / "release-image.png";

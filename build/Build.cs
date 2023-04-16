@@ -16,7 +16,7 @@ using static Nuke.Common.IO.PathConstruction;
 using Sdde.BuildComponents;
 using System.Collections.Generic;
 
-public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile
+public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile, IReportCoverage, IReportCoverallsNet
 {
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper
@@ -39,9 +39,15 @@ public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            OutputDirectory.GlobDirectories("**/artifacts", "**/coberage-reports", "**/packages", "**/test-results").ForEach(DeleteDirectory);
+            OutputDirectory.GlobDirectories("**/artifacts", "**/coverage-reports", "**/packages", "**/test-results").ForEach(DeleteDirectory);
             TemporaryDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
         });
 
     IEnumerable<Nuke.Common.ProjectModel.Project> ITest.TestProjects => Partition.GetCurrent(Solution.GetProjects("*.Tests.*"));
+
+    public bool CreateCoverageHtmlReport => true;
+    public bool ReportToCodecov => false;
+
+    public bool ReportToCoveralls => true;
+    // [Secret] [Parameter] readonly string CoverallsRepoToken;
 }

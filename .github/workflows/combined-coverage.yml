@@ -9,26 +9,14 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_continuous --host GitHubActions
+#         nuke --generate-configuration GitHubActions_combined-coverage --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: continuous
+name: combined-coverage
 
-on:
-  push:
-    branches-ignore:
-      - main
-      - develop
-      - 'release/*'
-    paths:
-      - '!**/README.md'
-  pull_request:
-    branches:
-      - develop
-      - 'release/*'
-      - 'feature/*'
+on: [workflow_dispatch]
 
 jobs:
   ubuntu-latest:
@@ -46,9 +34,10 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
-      - name: Run './build.cmd UnitTest Pack'
-        run: ./build.cmd UnitTest Pack
+      - name: Run './build.cmd ReportCoverage CoverAllsNet'
+        run: ./build.cmd ReportCoverage CoverAllsNet
         env:
+          CoverallsRepoToken: ${{ secrets.COVERALLS_REPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v3
         with:
@@ -56,5 +45,5 @@ jobs:
           path: output/test-results
       - uses: actions/upload-artifact@v3
         with:
-          name: packages
-          path: output/packages
+          name: coverage-report.zip
+          path: output/coverage-report.zip

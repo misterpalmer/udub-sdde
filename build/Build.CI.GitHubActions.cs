@@ -20,17 +20,41 @@ using Sdde.BuildComponents;
     CacheKeyFiles = new[] { "global.json", "source/**/*.csproj" },
     EnableGitHubToken = true,
     OnPushExcludePaths = new [] { "**/README.md"})]
+[GitHubActions(
+    "coverage",
+    GitHubActionsImage.UbuntuLatest,
+    AutoGenerate = true,
+    Submodules = GitHubActionsSubmodules.Recursive,
+    FetchDepth = 0,
+    On = new[] { GitHubActionsTrigger.WorkflowDispatch },
+    PublishArtifacts = true,
+    InvokedTargets = new[] { nameof(IReportCoverage.ReportCoverage) },
+    CacheKeyFiles = new[] { "global.json", "source/**/*.csproj" },
+    EnableGitHubToken = true)]
 // [GitHubActions(
-//     "deployment",
+//     "coveralls",
 //     GitHubActionsImage.UbuntuLatest,
 //     AutoGenerate = true,
 //     Submodules = GitHubActionsSubmodules.Recursive,
 //     FetchDepth = 0,
-//     On = new[] { GitHubActionsTrigger.PullRequest },
-//     PublishArtifacts = true,
-//     InvokedTargets = new[] { nameof(IPublish.Publish) },
+//     On = new[] { GitHubActionsTrigger.WorkflowDispatch },
+//     PublishArtifacts = false,
+//     InvokedTargets = new[] { nameof(IReportCoverallsNet.CoverAllsNet) },
 //     CacheKeyFiles = new[] { "global.json", "source/**/*.csproj" },
-//     EnableGitHubToken = true)]
+//     EnableGitHubToken = true,
+//     ImportSecrets = new[] { nameof(CoverallsRepoToken) })]
+// [GitHubActions(
+//     "combined-coverage",
+//     GitHubActionsImage.UbuntuLatest,
+//     AutoGenerate = true,
+//     Submodules = GitHubActionsSubmodules.Recursive,
+//     FetchDepth = 0,
+//     On = new[] { GitHubActionsTrigger.WorkflowDispatch },
+//     PublishArtifacts = true,
+//     InvokedTargets = new[] { nameof(IReportCoverage.ReportCoverage), nameof(IReportCoverallsNet.CoverAllsNet)  },
+//     CacheKeyFiles = new[] { "global.json", "source/**/*.csproj" },
+//     EnableGitHubToken = true,
+//     ImportSecrets = new[] { nameof(CoverallsRepoToken) })]
 partial class Build
 {
 

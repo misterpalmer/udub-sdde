@@ -9,8 +9,8 @@ using Nuke.Common.Tools.Codecov;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.Tools.Codecov.CodecovTasks;
+using static Nuke.Common.IO.CompressionTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
-
 
 namespace Sdde.BuildComponents;
 
@@ -19,11 +19,12 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
 {
     bool CreateCoverageHtmlReport { get; }
     bool ReportToCodecov { get; }
-    [Parameter] [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
+    [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
 
-    AbsolutePath CoverageReportDirectory => ReportDirectory / "coverage-report";
+    AbsolutePath CoverageReportDirectory => OutputDirectory / "coverage-reports";
+    string CoverageReportArchive => Path.ChangeExtension(CoverageReportDirectory, ".zip");
     // AbsolutePath CoverageReportArchive => CoverageReportDirectory.WithExtension("zip");
-    AbsolutePath CoverageReportArchive => CoverageReportDirectory / "coverage-report.zip";
+    // AbsolutePath CoverageReportArchive => CoverageReportDirectory / "coverage-report.zip";
 
     Target ReportCoverage => _ => _
         .DependsOn(UnitTest)
@@ -46,10 +47,14 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
                     .Apply(ReportGeneratorSettingsBase)
                     .Apply(ReportGeneratorSettings));
 
+                // CompressZip(
+                //         directory: CoverageReportDirectory,
+                //         archiveFile: CoverageReportArchive,
+                //         fileMode: FileMode.Create);
                 // CoverageReportDirectory.ZipTo(CoverageReportDirectory, CoverageReportArchive, null, CompressionLevel.Optimal, fileMode: FileMode.Create);
             }
 
-            UploadCoverageData();
+            // UploadCoverageData();
         });
 
     sealed Configure<CodecovSettings> CodecovSettingsBase => _ => _
@@ -59,7 +64,7 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
         .SetSha(GitRepository.Commit)
         .WhenNotNull(this as IHasGitVersion, (_, o) => _
             .SetBuild(o.Versioning.FullSemVer))
-        .SetFramework("netcoreapp3.0");
+        .SetFramework("net7.0");
 
     Configure<CodecovSettings> CodecovSettings => _ => _;
 
@@ -67,7 +72,7 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
         .SetReports(TestResultDirectory / "*.xml")
         .SetReportTypes(ReportTypes.HtmlInline)
         .SetTargetDirectory(CoverageReportDirectory)
-        .SetFramework("netcoreapp2.1");
+        .SetFramework("net7.0");
 
     Configure<ReportGeneratorSettings> ReportGeneratorSettings => _ => _;
 
