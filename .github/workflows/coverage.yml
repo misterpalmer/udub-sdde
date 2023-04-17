@@ -44,7 +44,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           format: cobertura
-          base-path: ./output/test-results/**
+          base-path: ./output/test-results/**/coverage.cobertura.xml
           flag-name: unittests
           parallel: true
           debug: true
