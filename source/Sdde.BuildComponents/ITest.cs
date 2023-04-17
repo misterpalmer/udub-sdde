@@ -83,7 +83,7 @@ public interface ITest : INukeBuild, ICompile, IHasArtifacts
         .SetDataCollector("XPlat Code Coverage")
         .EnableCollectCoverage()
         .SetCollectCoverage(true)
-        .SetCoverletOutputFormat(CoverletOutputFormat.opencover);
+        .SetCoverletOutputFormat(CoverletOutputFormat.cobertura);
 
         // .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
         //     .EnableCollectCoverage()

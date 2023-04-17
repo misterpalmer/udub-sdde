@@ -29,6 +29,7 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
         .DependsOn(UnitTest)
         .TryAfter<ITest>()
         .Consumes(UnitTest)
+        // .Produces(CoverageReportDirectory)
         .Requires(() => !ReportToCoveralls || CoverallsRepoToken != null)
         .Executes(() =>
         {

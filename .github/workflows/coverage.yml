@@ -16,7 +16,7 @@
 
 name: coverage
 
-on: [workflow_dispatch]
+on: [push, pull_request]
 
 jobs:
   ubuntu-latest:
@@ -27,22 +27,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v3
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
-      - name: Run './build.cmd ReportCoverage'
-        run: ./build.cmd ReportCoverage
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: output/test-results
-      - uses: actions/upload-artifact@v3
-        with:
-          name: coverage-reports.zip
-          path: output/coverage-reports.zip
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1

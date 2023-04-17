@@ -47,7 +47,6 @@ public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile, IRepor
 
     public bool CreateCoverageHtmlReport => true;
     public bool ReportToCodecov => false;
-
     public bool ReportToCoveralls => true;
     // [Secret] [Parameter] readonly string CoverallsRepoToken;
 }
