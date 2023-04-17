@@ -58,13 +58,13 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
         });
 
     sealed Configure<CodecovSettings> CodecovSettingsBase => _ => _
-        .SetFiles(TestResultDirectory.GlobFiles("*.xml").Select(x => x.ToString()))
+        .SetFiles(TestResultDirectory.GlobFiles("**/coverage.cobertura.xml").Select(x => x.ToString()))
         .SetToken(CodecovToken)
         .SetBranch(GitRepository.Branch)
         .SetSha(GitRepository.Commit)
         .WhenNotNull(this as IHasGitVersion, (_, o) => _
             .SetBuild(o.Versioning.FullSemVer))
-        .SetFramework("net7.0");
+        .SetFramework("net5.0");
 
     Configure<CodecovSettings> CodecovSettings => _ => _;
 
