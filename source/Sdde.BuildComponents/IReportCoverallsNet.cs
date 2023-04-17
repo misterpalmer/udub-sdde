@@ -45,20 +45,21 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
                 // CoverageReportDirectory.ZipTo(CoverageReportDirectory, CoverageReportArchive, null, CompressionLevel.Optimal, fileMode: FileMode.Create);
             }
 
-            // if (ReportToCoveralls)
-            // {
-            //     CoverallsNet(_ => _
-            //         .Apply(CoverallsNetSettingsBase)
-            //         .Apply(CoverallsNetSettings));
+            if (ReportToCoveralls)
+            {
+                CoverallsNet(_ => _
+                    .Apply(CoverallsNetSettingsBase)
+                    .Apply(CoverallsNetSettings));
 
-            // }
+            }
         });
 
     sealed Configure<CoverallsNetSettings> CoverallsNetSettingsBase => _ => _
         .SetRepoToken(CoverallsRepoToken)
-        .SetBasePath(CoverageReportDirectory)
+        // .SetUserRelativePaths(true)
+        // .SetBasePath(TestResultDirectory)
         .SetOpenCover(true)
-        .SetInput("index.html")
+        .SetInput(TestResultDirectory / "Sdde.DataStructures.Tests.Unit-coverage.xml")
         .SetCommitBranch(GitRepository.Branch)
         .SetCommitId(GitRepository.Commit)
         .SetDryRun(false);

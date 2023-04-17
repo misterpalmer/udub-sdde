@@ -82,7 +82,8 @@ public interface ITest : INukeBuild, ICompile, IHasArtifacts
         .SetResultsDirectory(TestResultDirectory)
         .SetDataCollector("XPlat Code Coverage")
         .EnableCollectCoverage()
-        .SetCoverletOutputFormat(CoverletOutputFormat.cobertura);
+        .SetCollectCoverage(true)
+        .SetCoverletOutputFormat(CoverletOutputFormat.opencover);
 
         // .When(InvokedTargets.Contains((this as IReportCoverage)?.ReportCoverage) || IsServerBuild, _ => _
         //     .EnableCollectCoverage()
@@ -94,9 +95,9 @@ public interface ITest : INukeBuild, ICompile, IHasArtifacts
         //         .EnableUseSourceLink()));
 
     sealed Configure<DotNetTestSettings, Project> TestProjectSettingsBase => (_, v) => _
-        .SetProjectFile(v);
+        .SetProjectFile(v)
         // .AddLoggers($"trx;LogFileName={v.Name}.trx")
-        // .AddLoggers($"xunit;LogFilePath={TestResultDirectory}/{v.Name}.xml");
+        .AddLoggers($"xunit;LogFilePath={TestResultDirectory}/{v.Name}-coverage.xml");
 
         // https://github.com/Tyrrrz/GitHubActionuke :nsTestLogger
         // .When(GitHubActions.Instance is not null && v.HasPackageReference("GitHubActionsTestLogger"), _ => _
