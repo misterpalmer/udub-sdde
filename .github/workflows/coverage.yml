@@ -27,15 +27,15 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage/coverage.cobertura.xml
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    #   - name: Upload coverage reports to Codecov
+    #     uses: codecov/codecov-action@v3
+    #     with:
+    #       files: ./coverage/coverage.cobertura.xml
+    #       flags: unittests
+    #       name: codecov-umbrella
+    #       fail_ci_if_error: true
+    #     env:
+    #       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         env:
@@ -46,5 +46,4 @@ jobs:
           base-path: ./output/test-results
           flag-name: unittests
           parallel: true
-          parallel-finished: true
           debug: true
