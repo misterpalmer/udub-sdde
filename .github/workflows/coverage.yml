@@ -43,7 +43,8 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-path: ./output/test-results
+          format: cobertura
+          base-path: ./output/test-results/**
           flag-name: unittests
           parallel: true
           debug: true
