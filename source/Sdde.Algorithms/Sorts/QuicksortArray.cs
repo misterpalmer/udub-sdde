@@ -86,6 +86,7 @@ public class QuicksortArray
                 pivot = length - 1;
                 break;
             case PivotMethod.Middle:
+                pivot = length / 2;
                 pivot = (left + right) / 2;
                 break;
             case PivotMethod.Random:

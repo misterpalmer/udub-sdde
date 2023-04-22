@@ -50,42 +50,44 @@ public class QuicksortTests
         sut.Should().BeInAscendingOrder();
     }
 
-    [Fact]
-    public void Copilot_DescendingSorted_PartitionRandom_ReturnsAscending()
+    // [Fact]
+    // public void Copilot_DescendingSorted_PartitionRandom_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
+    // {
+    //     // Arrange
+    //     int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+    //     sut = new int[] {8, 2, 5, 9, 0, 6, 3};
+
+    //     // Act
+    //     Quicksort.Sort(sut);
+
+    //     // Assert
+    //     using var scope = new AssertionScope();
+    //     sut.Should().BeInAscendingOrder();
+    // }
+
+    [Theory]
+    [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.QuicksortUnsortedTestData), MemberType = typeof(ArrayTestsData))]
+    public void DescendingSorted_PartitionLeft_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
     {
         // Arrange
-        int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-        sut = new int[] {8, 2, 5, 9, 0, 6, 3};
 
         // Act
-        Quicksort.Sort(sut);
+        QuicksortArray.Execute<T>(sut, QuicksortArray.PivotMethod.Left);
 
         // Assert
         using var scope = new AssertionScope();
         sut.Should().BeInAscendingOrder();
     }
 
-    [Fact]
-    public void DescendingSorted_PartitionLeft_ReturnsAscending()
+
+
+    [Theory]
+    [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.QuicksortUnsortedTestData), MemberType = typeof(ArrayTestsData))]
+    public void DescendingSorted_PartitionRight_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
     {
         // Arrange
-        int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-
-        // Act
-        QuicksortArray.Execute(sut, QuicksortArray.PivotMethod.Left);
-
-        // Assert
-        using var scope = new AssertionScope();
-        sut.Should().BeInAscendingOrder();
-    }
-
-
-
-    [Fact]
-    public void DescendingSorted_PartitionRight_ReturnsAscending()
-    {
-        // Arrange
-        int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 
         // Act
         QuicksortArray.Execute(sut, QuicksortArray.PivotMethod.Right);
@@ -95,11 +97,12 @@ public class QuicksortTests
         sut.Should().BeInAscendingOrder();
     }
 
-    [Fact]
-    public void DescendingSorted_PartitionRandom_ReturnsAscending()
+    [Theory]
+    [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.QuicksortUnsortedTestData), MemberType = typeof(ArrayTestsData))]
+    public void DescendingSorted_PartitionRandom_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
     {
         // Arrange
-        int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 
         // Act
         QuicksortArray.Execute(sut, QuicksortArray.PivotMethod.Random);
