@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Linq.Expressions;
-
 namespace Sdde.Collections.Generic;
 
 public static class DoublyLinkedListExtension
@@ -105,4 +102,3 @@ public static class DoublyLinkedListExtension
         yield return input;
     }
 }
-

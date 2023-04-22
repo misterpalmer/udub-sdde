@@ -6,6 +6,5 @@ namespace Sdde.BuildComponents;
 
 public interface IHasSolution : INukeBuild
 {
-    [PublicAPI]
-    [Solution] [Required] Solution Solution => TryGetValue(() => Solution);
+    [PublicAPI] [Solution] [Required] Solution Solution => TryGetValue(() => Solution);
 }

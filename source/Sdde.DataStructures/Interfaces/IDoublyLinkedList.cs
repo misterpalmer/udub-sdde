@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Sdde.Collections.Generic;
 
 public interface IDoublyLinkedList<T> : IEnumerable<T>

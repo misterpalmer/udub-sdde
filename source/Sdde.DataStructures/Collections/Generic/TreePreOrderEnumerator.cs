@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace Sdde.Collections.Generic;
 
@@ -28,4 +23,3 @@ public class TreePreOrderEnumerator<T> : IEnumerator<T>
         throw new NotImplementedException();
     }
 }
-

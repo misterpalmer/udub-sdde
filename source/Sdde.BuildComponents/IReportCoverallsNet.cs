@@ -1,17 +1,13 @@
-using System.IO.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression;
 using JetBrains.Annotations;
 using Nuke.Common;
-using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Codecov;
-using Nuke.Common.Tools.ReportGenerator;
-using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.Tools.Codecov.CodecovTasks;
-using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using Nuke.Common.Tools.CoverallsNet;
+using Nuke.Common.Tools.ReportGenerator;
+using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.CoverallsNet.CoverallsNetTasks;
+using static Nuke.Common.Tools.Codecov.CodecovTasks;
 
 
 namespace Sdde.BuildComponents;
@@ -21,11 +17,13 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
 {
     bool CreateCoverageHtmlReport { get; }
     bool ReportToCoveralls { get; }
+    bool ReportToCodecov { get; }
     [Parameter] [Secret] string CoverallsRepoToken => TryGetValue(() => CoverallsRepoToken);
+    [Parameter][Secret] string CodecovToken => TryGetValue(() => CodecovToken);
     AbsolutePath CoverageReportDirectory => OutputDirectory / "coverage-reports";
 
 
-    Target CoverAllsNet => _ => _
+    Target CoverallsDotIo => _ => _
         .DependsOn(UnitTest)
         .TryAfter<ITest>()
         .Consumes(UnitTest)
@@ -34,25 +32,18 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
         .Executes(() =>
         {
             if (CreateCoverageHtmlReport)
-            {
                 ReportGenerator(_ => _
                     .Apply(ReportGeneratorSettingsBase)
                     .Apply(ReportGeneratorSettings));
-
-                // CompressZip(
-                //         directory: CoverageReportDirectory,
-                //         archiveFile: CoverageReportArchive,
-                //         fileMode: FileMode.Create);
-                // CoverageReportDirectory.ZipTo(CoverageReportDirectory, CoverageReportArchive, null, CompressionLevel.Optimal, fileMode: FileMode.Create);
-            }
-
+            if (ReportToCodecov)
+                Codecov(_ => _
+                    .Apply(CodecovSettingsBase)
+                    .Apply(CodecovSettings));
+            
             if (ReportToCoveralls)
-            {
                 CoverallsNet(_ => _
                     .Apply(CoverallsNetSettingsBase)
                     .Apply(CoverallsNetSettings));
-
-            }
         });
 
     sealed Configure<CoverallsNetSettings> CoverallsNetSettingsBase => _ => _
@@ -64,6 +55,17 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
         .SetCommitBranch(GitRepository.Branch)
         .SetCommitId(GitRepository.Commit)
         .SetDryRun(false);
+
+    sealed Configure<CodecovSettings> CodecovSettingsBase => _ => _
+        .SetFiles(TestResultDirectory.GlobFiles("**/coverage.cobertura.xml").Select(x => x.ToString()))
+        .SetToken(CodecovToken)
+        .SetBranch(GitRepository.Branch)
+        .SetSha(GitRepository.Commit)
+        .WhenNotNull(this as IHasGitVersion, (_, o) => _
+            .SetBuild(o.Versioning.FullSemVer))
+        .SetFramework("net5.0");
+
+    Configure<CodecovSettings> CodecovSettings => _ => _;
 
     Configure<CoverallsNetSettings> CoverallsNetSettings => _ => _;
 

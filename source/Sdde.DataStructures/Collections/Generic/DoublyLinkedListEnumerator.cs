@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Sdde.Collections.Generic;
 
-
 public class DoublyLinkedListEnumerator<T> : IEnumerator<T>
 {
-    private IDoublyNode<T> _head;
     private IDoublyNode<T> _current;
+    private readonly IDoublyNode<T> _head;
+
     public DoublyLinkedListEnumerator(IDoublyNode<T> input)
     {
         _current = _head = input;
@@ -18,15 +17,14 @@ public class DoublyLinkedListEnumerator<T> : IEnumerator<T>
 
     public void Dispose()
     {
-        
     }
 
     public bool MoveNext()
     {
         if (_current is null) return false;
-        
+
         _current = _current.Next!;
-        return (_current is not null);
+        return _current is not null;
     }
 
     public void Reset()

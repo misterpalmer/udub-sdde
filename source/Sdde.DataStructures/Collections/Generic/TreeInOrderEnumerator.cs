@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
-namespace Sdde.Collections.Generic
+namespace Sdde.Collections.Generic;
+
+internal class TreeInOrderEnumerator<T> : IEnumerator<T>
 {
-    internal class TreeInOrderEnumerator<T> : IEnumerator<T>
+    public T Current => throw new NotImplementedException();
+
+    object IEnumerator.Current => throw new NotImplementedException();
+
+    public void Dispose()
     {
-        public T Current => throw new NotImplementedException();
+        throw new NotImplementedException();
+    }
 
-        object IEnumerator.Current => throw new NotImplementedException();
+    public bool MoveNext()
+    {
+        throw new NotImplementedException();
+    }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
+    public void Reset()
+    {
+        throw new NotImplementedException();
     }
 }

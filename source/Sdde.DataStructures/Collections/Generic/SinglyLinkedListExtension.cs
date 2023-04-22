@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Linq.Expressions;
-
 namespace Sdde.Collections.Generic;
 
 public static class LinkedListExtension
@@ -105,4 +102,3 @@ public static class LinkedListExtension
         yield return input;
     }
 }
-

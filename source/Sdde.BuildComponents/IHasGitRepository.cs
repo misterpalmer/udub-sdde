@@ -2,7 +2,6 @@
 using Nuke.Common;
 using Nuke.Common.Git;
 
-
 namespace Sdde.BuildComponents;
 
 [PublicAPI]

@@ -1,8 +1,4 @@
-using Xunit;
-using FluentAssertions;
-using Sdde.Collections.Generic;
 using Sdde.DataStructures.Tests.Unit.Data;
-using System.Collections;
 
 namespace Sdde.Collections.Generic.Tests.Unit;
 
@@ -21,10 +17,10 @@ public class StackTests
     public void Constructor_CheckSizeLessThanZero_Throw()
     {
         // Given
-    
+
         // When
         Action act = () => new ArrayStack<int>(-1);
-        
+
         // Then
         using var _ = new AssertionScope();
         act.Should().Throw<ArgumentOutOfRangeException>();
@@ -34,7 +30,7 @@ public class StackTests
     public void Constructor_CheckNoSize_ReturnDefault()
     {
         // Given
-        int expectedDefault = 128 * 1;
+        var expectedDefault = 128 * 1;
 
         // When
         var stack = new ArrayStack<int>();
@@ -43,12 +39,12 @@ public class StackTests
         using var _ = new AssertionScope();
         stack.Capacity.Should().Be(expectedDefault);
     }
-    
+
     [Fact]
     public void Constructor_CheckRequestedSizeLessThanMax_ReturnRequested()
     {
         // Given
-        int requestedSize = 16 * 2;
+        var requestedSize = 16 * 2;
 
         // When
         var stack = new ArrayStack<int>(requestedSize);
@@ -57,12 +53,12 @@ public class StackTests
         using var _ = new AssertionScope();
         stack.Capacity.Should().Be(requestedSize);
     }
-    
+
     [Fact]
     public void Constructor_CheckRequestedSizeEqualsMaxAllowed_ReturnRequestedSize()
     {
         // Given
-        int requestedSize = 128 * 1;
+        var requestedSize = 128 * 1;
 
         // When
         var stack = new ArrayStack<int>();
@@ -76,7 +72,7 @@ public class StackTests
     public void Constructor_CheckRequestedSizeGreaterThanMax_ReturnException()
     {
         // Given
-        int givenMax = 256 * 2 + 1;
+        var givenMax = 256 * 2 + 1;
 
         // When
         Action act = () => new ArrayStack<int>(givenMax);
@@ -87,24 +83,18 @@ public class StackTests
     }
 
     [Theory]
-    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType= typeof(ArrayTestsData))]
-    public void Push_Pop_Peek<T>(T[] data )
+    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType = typeof(ArrayTestsData))]
+    public void Push_Pop_Peek<T>(T[] data)
     {
         // Arrange
         var stack = new ArrayStack<T>();
         var expect = new List<T>(data);
 
         // Act
-        foreach (var item in data)
-        {
-            stack.Push(item);
-        }
+        foreach (var item in data) stack.Push(item);
 
         var result = new List<T>();
-        while (!stack.IsEmpty)
-        {
-            result.Add(stack.Pop());
-        }
+        while (!stack.IsEmpty) result.Add(stack.Pop());
 
         // Assert
         using var _ = new AssertionScope();
@@ -112,7 +102,7 @@ public class StackTests
     }
 
     [Theory]
-    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType= typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType = typeof(ArrayTestsData))]
     public void Push_Peek<T>(T[] data)
     {
         // Arrange
@@ -120,10 +110,7 @@ public class StackTests
         var expect = new List<T>(data);
 
         // Act
-        foreach (var item in data)
-        {
-            stack.Push(item);
-        }
+        foreach (var item in data) stack.Push(item);
 
         var result = stack.Peek();
 
@@ -133,7 +120,7 @@ public class StackTests
     }
 
     [Theory]
-    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType= typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType = typeof(ArrayTestsData))]
     public void Push_Pop<T>(T[] data)
     {
         // Arrange
@@ -141,16 +128,10 @@ public class StackTests
         var expect = new List<T>(data);
 
         // Act
-        foreach (var item in data)
-        {
-            stack.Push(item);
-        }
+        foreach (var item in data) stack.Push(item);
 
         var result = new List<T>();
-        while (!stack.IsEmpty)
-        {
-            result.Add(stack.Pop());
-        }
+        while (!stack.IsEmpty) result.Add(stack.Pop());
 
         // Assert
         using var _ = new AssertionScope();
@@ -158,7 +139,7 @@ public class StackTests
     }
 
     [Theory]
-    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType= typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.CreateFromIEnumerableData), MemberType = typeof(ArrayTestsData))]
     public void Push_Pop_Peek_WithNull<T>(T?[] data)
     {
         // Arrange
@@ -166,20 +147,12 @@ public class StackTests
         var expect = new List<T?>(data);
 
         // Act
-        foreach (var item in expect)
-        {
-            stack.Push(item);
-        }
+        foreach (var item in expect) stack.Push(item);
 
         var result = new List<T?>();
-        while (!stack.IsEmpty)
-        {
-            result.Add(stack.Pop());
-        }
+        while (!stack.IsEmpty) result.Add(stack.Pop());
 
         // Assert
         result.Should().BeEquivalentTo(expect);
     }
-
-    
 }

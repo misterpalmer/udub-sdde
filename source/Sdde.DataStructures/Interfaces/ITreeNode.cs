@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sdde.Interfaces;
+﻿namespace Sdde.Interfaces;
 
 public interface ITreeNode<T> where T : IComparable<T>
 {
@@ -15,10 +9,9 @@ public interface ITreeNode<T> where T : IComparable<T>
     ITreeNode<T> RightChild { get; }
     int ChildCount { get; }
     bool IsParent { get; }
-    bool IsLeftChild{ get; }
+    bool IsLeftChild { get; }
     bool IsRightChild { get; }
     bool IsLeaf { get; }
     bool HasLeftChild { get; }
     bool HasRightChild { get; }
 }
-

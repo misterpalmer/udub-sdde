@@ -1,7 +1,4 @@
-﻿using Sdde.DataStructures.Tests.Unit.Data;
-
-namespace Sdde.Collections.Generic.Tests.Unit;
-
+﻿namespace Sdde.Collections.Generic.Tests.Unit;
 
 public class MinHeapTests
 {
@@ -15,12 +12,9 @@ public class MinHeapTests
     [Fact]
     public void Insert()
     {
-        
     }
 
     public void Heapify()
     {
-        
     }
-    
 }

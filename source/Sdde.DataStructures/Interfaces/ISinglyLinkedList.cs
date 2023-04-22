@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Sdde.Collections.Generic;
 
 public interface ISinglyLinkedList<T> : IEnumerable<T>

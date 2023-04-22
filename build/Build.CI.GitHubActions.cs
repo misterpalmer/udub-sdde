@@ -1,6 +1,4 @@
-﻿using Nuke.Common;
-using Nuke.Common.CI.GitHubActions;
-using Sdde.BuildComponents;
+﻿
 
 
 // [GitHubActions(
@@ -57,5 +55,4 @@ using Sdde.BuildComponents;
 //     ImportSecrets = new[] { nameof(CoverallsRepoToken) })]
 partial class Build
 {
-
 }

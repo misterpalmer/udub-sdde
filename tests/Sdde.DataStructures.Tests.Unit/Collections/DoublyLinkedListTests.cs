@@ -1,19 +1,18 @@
-using Sdde.Collections.Generic;
 using Sdde.DataStructures.Tests.Unit.Data;
-
 
 namespace Sdde.Collections.Generic.Tests.Unit;
 
 public class DoublyLinkedListTests
 {
     private readonly ITestOutputHelper output;
-    public DoublyLinkedListTests (ITestOutputHelper output)
+
+    public DoublyLinkedListTests(ITestOutputHelper output)
     {
         this.output = output;
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByNode_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -21,19 +20,13 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddFirst(new DoublyNode<int>(index));
-        }
-        
-        foreach(var element in tester)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddFirst(new DoublyNode<int>(index));
+
+        foreach (var element in tester) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -45,7 +38,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByNode_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -53,20 +46,14 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        IEnumerator<int> looper = tester.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = tester.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddFirst(new DoublyNode<int>(index));
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddFirst(new DoublyNode<int>(index));
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -78,7 +65,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByValue_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -86,19 +73,13 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddFirst(index);
-        }
-        
-        foreach(var element in tester)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddFirst(index);
+
+        foreach (var element in tester) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -110,7 +91,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByValue_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -118,20 +99,14 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        IEnumerator<int> looper = tester.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = tester.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddFirst(index);
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddFirst(index);
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -143,7 +118,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByNode_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -151,19 +126,13 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddLast(new DoublyNode<int>(index));
-        }
-        
-        foreach(var element in tester)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddLast(new DoublyNode<int>(index));
+
+        foreach (var element in tester) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -175,7 +144,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByNode_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -183,20 +152,14 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        IEnumerator<int> looper = tester.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = tester.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddLast(new DoublyNode<int>(index));
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddLast(new DoublyNode<int>(index));
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -208,7 +171,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByValue_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -216,19 +179,13 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddLast(index);
-        }
-        
-        foreach(var element in tester)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddLast(index);
+
+        foreach (var element in tester) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -240,7 +197,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByValue_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -248,20 +205,14 @@ public class DoublyLinkedListTests
     {
         // Arrange
         IDoublyLinkedList<int> tester = new DoublyLinkedList<int>();
-        IEnumerator<int> looper = tester.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = tester.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            tester.AddLast(index);
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) tester.AddLast(index);
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -269,11 +220,11 @@ public class DoublyLinkedListTests
         tester.Count.Should<int>().Be(expectedNodeCount);
         tester.First!.Data.Should<int>().Be(indexStart);
         tester.Last!.Data.Should<int>().Be(indexEnd - 1);
-        tester.Last!.Next.Should().BeNull();  
+        tester.Last!.Next.Should().BeNull();
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByNode_MultipleAddLast_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -292,7 +243,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByValue_MultipleAddLast_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -311,7 +262,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByNode_MultipleAddFirst_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -330,7 +281,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByValue_MultipleAddFirst_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -349,7 +300,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByNode_MultipleAddMixed_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -368,7 +319,7 @@ public class DoublyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByValue_MultipleAddMixed_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -385,7 +336,4 @@ public class DoublyLinkedListTests
         tester.Last!.Data.Should().Be(second);
         tester.Last!.Next.Should().BeNull();
     }
-
-    
-
 }
