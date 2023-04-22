@@ -4,62 +4,57 @@ public class QuicksortArray
 {
     public static void Execute<T>(T[] array, PivotMethod pivotMethod) where T : IComparable<T>
     {
-        var left = 0;
-        var right = array.Length - 1;
-
         Sort<T>(array, 0, array.Length - 1, pivotMethod);
     }
 
     private static void Sort<T>(T[] array, int left, int right, PivotMethod pivotMethod) where T : IComparable<T>
     {
-        if (left.CompareTo(right) > 0) return;
+        if (left.CompareTo(right) >= 0) return;
 
         // var start = left;
         // var end = right;
 
         int pivotIndex = PickAPivotIndex(left, right, pivotMethod);
         (var start, var end) = Partition(array, left, right, pivotIndex);
+
+        Sort(array, left, start - 1, pivotMethod);
+        Sort(array, start, right, pivotMethod);
+
+
+
+        // // // // // // // // sorts but never exits
+        // Sort(array, left, start, pivotMethod);
+        // Sort(array, start + 1, right, pivotMethod);
+
+
+        // // // // // // // // sorts but never exits
+        // Sort(array, left, end + 1, pivotMethod);
+        // Sort(array, end - 1, right, pivotMethod);
+
+
         // // // // // // // // sorts but never exits
         // // // // // // Sort(array, left, start, pivotMethod);
         // // // // // // Sort(array, end, right, pivotMethod);
 
-        Sort(array, left, start, pivotMethod);
-        Sort(array, end + 1, right, pivotMethod);
+        // // // // // // // // sorts but never exits
+        // // // // Sort(array, left, right, pivotMethod);
 
-        // if ((pivotIndex - left) < (right - pivotIndex))
-        // {
-        //     Sort(array, start, pivotIndex - 1, pivotMethod);
-        //     // start = pivotIndex + 1;
-        // }
-        // else
-        // {
-        //     Sort(array, pivotIndex + 1, end, pivotMethod);
-        //     // end = pivotIndex - 1;
-        // }
-
-
-
-        // sorts but never exits
-        // if (left < end)
-        // {
-        //     Sort(array, left, pivotIndex, pivotMethod);
-        // }
-
-        // if (right > start)
-        // {
-        //     Sort(array, pivotIndex, right, pivotMethod);
-        // }
+        // // // // // // // // sorts but never exits
+        // Sort(array, left, end + 1, pivotMethod);
+        // Sort(array, start - 1, right, pivotMethod);
     }
 
     private static (int, int) Partition<T>(T[] array, int start, int end, int pivotIndex) where T : IComparable<T>
     {
+        T pivotValue = array[pivotIndex];
         // obvious optimization
-        if (array[start].CompareTo(array[end]) == 1) Swap(ref array[start], ref array[end]);
+        // if (array[start].CompareTo(array[end]) == 1) Swap(ref array[start], ref array[end]);
         while (start <= end) // while (true) // while (start <= end)
         {
-            T pivotValue = array[pivotIndex];
-            while (array[start].CompareTo(pivotValue) < 0) start++;
-            while (array[end].CompareTo(pivotValue) > 0) end--;
+            // T pivotValue = array[pivotIndex];
+            while (array[start].CompareTo(pivotValue) == -1) start++;
+            while (array[end].CompareTo(pivotValue) == 1) end--;
+            // if (start < end) Swap(ref array[start++], ref array[end--]);
             if (start <= end) Swap(ref array[start++], ref array[end--]);
             // return (start, end);
 
@@ -91,7 +86,7 @@ public class QuicksortArray
                 pivot = length - 1;
                 break;
             case PivotMethod.Middle:
-                pivot = length / 2;
+                pivot = (left + right) / 2;
                 break;
             case PivotMethod.Random:
                 pivot =  new Random(DateTime.UtcNow.DayOfYear) .Next(left, right);

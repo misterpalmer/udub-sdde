@@ -35,7 +35,7 @@ public class QuicksortTests
     }
 
     [Theory]
-    // [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
     [MemberData(nameof(ArrayTestsData.QuicksortUnsortedTestData), MemberType = typeof(ArrayTestsData))]
     public void DescendingSorted_PartitionMiddle_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
     {
@@ -44,6 +44,21 @@ public class QuicksortTests
 
         // Act
         QuicksortArray.Execute<T>(sut, QuicksortArray.PivotMethod.Middle);
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeInAscendingOrder();
+    }
+
+    [Fact]
+    public void Copilot_DescendingSorted_PartitionRandom_ReturnsAscending()
+    {
+        // Arrange
+        int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+        sut = new int[] {8, 2, 5, 9, 0, 6, 3};
+
+        // Act
+        Quicksort.Sort(sut);
 
         // Assert
         using var scope = new AssertionScope();
@@ -63,6 +78,8 @@ public class QuicksortTests
         using var scope = new AssertionScope();
         sut.Should().BeInAscendingOrder();
     }
+
+
 
     [Fact]
     public void DescendingSorted_PartitionRight_ReturnsAscending()
@@ -110,4 +127,7 @@ public class QuicksortTests
         using var scope = new AssertionScope();
         sut.Should().BeInAscendingOrder();
     }
+
+
+
 }
