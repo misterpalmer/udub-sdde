@@ -18,8 +18,8 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
     bool CreateCoverageHtmlReport { get; }
     bool ReportToCoveralls { get; }
     bool ReportToCodecov { get; }
-    [Parameter] [Secret] string CoverallsRepoToken => TryGetValue(() => CoverallsRepoToken);
-    [Parameter][Secret] string CodecovToken => TryGetValue(() => CodecovToken);
+    [Secret] string CoverallsRepoToken => TryGetValue(() => CoverallsRepoToken);
+    [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
     AbsolutePath CoverageReportDirectory => OutputDirectory / "coverage-reports";
 
 
@@ -39,7 +39,7 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
                 Codecov(_ => _
                     .Apply(CodecovSettingsBase)
                     .Apply(CodecovSettings));
-            
+
             if (ReportToCoveralls)
                 CoverallsNet(_ => _
                     .Apply(CoverallsNetSettingsBase)
