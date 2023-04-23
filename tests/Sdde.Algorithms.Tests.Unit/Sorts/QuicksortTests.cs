@@ -40,7 +40,6 @@ public class QuicksortTests
     public void DescendingSorted_PartitionMiddle_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
     {
         // Arrange
-        // int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 
         // Act
         QuicksortArray.Execute<T>(sut, QuicksortArray.PivotMethod.Middle);
@@ -49,21 +48,6 @@ public class QuicksortTests
         using var scope = new AssertionScope();
         sut.Should().BeInAscendingOrder();
     }
-
-    // [Fact]
-    // public void Copilot_DescendingSorted_PartitionRandom_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
-    // {
-    //     // Arrange
-    //     int[] sut = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-    //     sut = new int[] {8, 2, 5, 9, 0, 6, 3};
-
-    //     // Act
-    //     Quicksort.Sort(sut);
-
-    //     // Assert
-    //     using var scope = new AssertionScope();
-    //     sut.Should().BeInAscendingOrder();
-    // }
 
     [Theory]
     [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
@@ -113,14 +97,30 @@ public class QuicksortTests
     }
 
     [Theory]
-    [MemberData(nameof(ArrayTestsData.QuicksortRangeTestData), MemberType = typeof(ArrayTestsData))]
-    public void Summation_ReturnsCorrectResult<T>(int lower, int upper, T pivot) where T : IComparable<T>
+    [MemberData(nameof(ArrayTestsData.QuicksortAllTestData), MemberType = typeof(ArrayTestsData))]
+    [MemberData(nameof(ArrayTestsData.QuicksortUnsortedTestData), MemberType = typeof(ArrayTestsData))]
+    public void DescendingSorted_PartitionBitShift_ReturnsAscending<T>(T[] sut) where T : IComparable<T>
     {
         // Arrange
-        var sut = Array.Empty<T>();
+
+        // Act
+        QuicksortArray.Execute(sut, QuicksortArray.PivotMethod.BitShift);
+
+        // Assert
+        using var scope = new AssertionScope();
+        sut.Should().BeInAscendingOrder();
+    }
+
+    [Theory]
+    [MemberData(nameof(ArrayTestsData.QuicksortRangeTestData), MemberType = typeof(ArrayTestsData))]
+    public void Summation_ReturnsCorrectResult(int lower, int upper)
+    {
+        // Arrange
+        var length = (upper - lower + 1);
+        int[] sut = new int[length]; //Array.Empty<int>();
         for (int i = lower; i < upper; i++)
         {
-            sut[i] = fixture.Create<T>();
+            sut[i] = fixture.Create<int>();
         }
 
         // Act
@@ -130,7 +130,4 @@ public class QuicksortTests
         using var scope = new AssertionScope();
         sut.Should().BeInAscendingOrder();
     }
-
-
-
 }

@@ -33,9 +33,12 @@ public class ArrayTestsData
     public static IEnumerable<object[]> QuicksortRangeTestData =>
         new List<object[]>
         {
-            new object[] {0, 100, 12},
-            new object[] {0, 1000, 345},
-            new object[] {0, 10000, 6789}
+            new object[] {0, 100},
+            // new object[] {1, 1000},
+            // new object[] {2, 10000},
+            // new object[] {3, 100000},
+            // new object[] {4, 1000000},
+            // new object[] {5, 10000000},
         };
 }
 
