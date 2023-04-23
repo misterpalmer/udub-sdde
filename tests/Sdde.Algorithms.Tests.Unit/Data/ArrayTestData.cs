@@ -34,11 +34,11 @@ public class ArrayTestsData
         new List<object[]>
         {
             new object[] {0, 100},
-            // new object[] {1, 1000},
-            // new object[] {2, 10000},
-            // new object[] {3, 100000},
-            // new object[] {4, 1000000},
-            // new object[] {5, 10000000},
+            new object[] {1, 1000},
+            new object[] {2, 10000},
+            new object[] {3, 100000},
+            new object[] {4, 1000000},
+            new object[] {5, 10000000},
         };
 }
 

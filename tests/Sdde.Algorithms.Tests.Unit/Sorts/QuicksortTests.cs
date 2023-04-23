@@ -118,7 +118,7 @@ public class QuicksortTests
         // Arrange
         var length = (upper - lower + 1);
         int[] sut = new int[length]; //Array.Empty<int>();
-        for (int i = lower; i < upper; i++)
+        for (int i = lower; i < length; i++)
         {
             sut[i] = fixture.Create<int>();
         }
