@@ -18,8 +18,10 @@ public interface IReportCoverallsNet : ITest, IHasReports, IHasGitRepository
     bool CreateCoverageHtmlReport { get; }
     bool ReportToCoveralls { get; }
     bool ReportToCodecov { get; }
-    [Secret] string CoverallsRepoToken => TryGetValue(() => CoverallsRepoToken);
-    [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
+    [Parameter] [Secret] string CoverallsRepoToken => TryGetValue(() => CoverallsRepoToken);
+    [Parameter] [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
+    // [Parameter] string CoverallsRepoToken => TryGetValue(() => CoverallsRepoToken) ?? "45fTJ9EW7HVMmqBJskRyhrX2Ti9UapNQW";
+    // [Parameter] string CodecovToken => TryGetValue(() => CodecovToken) ?? "ba172197-1011-4690-8706-124facd84aef";
     AbsolutePath CoverageReportDirectory => OutputDirectory / "coverage-reports";
 
 

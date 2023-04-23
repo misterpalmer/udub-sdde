@@ -16,7 +16,7 @@ public interface IReportCoverage : ITest, IHasReports, IHasGitRepository
 {
     bool CreateCoverageHtmlReport { get; }
     bool ReportToCodecov { get; }
-    [Parameter] [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
+    [Secret] string CodecovToken => TryGetValue(() => CodecovToken);
 
     AbsolutePath CoverageReportDirectory => OutputDirectory / "coverage-reports";
 

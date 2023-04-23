@@ -43,5 +43,7 @@ public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile, IRepor
 
     // public static int Main () => Execute<Build>(x => ((IPack)x).Pack);
     public static int Main() => Execute<Build>(x => ((ITest) x).UnitTest);
-    // [Secret] [Parameter] readonly string CoverallsRepoToken;
+    // [Parameter] [Secret] readonly string CoverallsRepoToken;
+    [Secret] readonly string CodecovToken;
+    // [Secret] readonly string CodecovToken = " ba172197-1011-4690-8706-124facd84aef";
 }
