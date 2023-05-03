@@ -3,23 +3,18 @@ using System.Runtime.Serialization;
 
 namespace Sdde.Collections.Generic;
 
-public class HashTable<T> : System.Collections.Generic.ICollection<T>,
-    System.Collections.Generic.IEnumerable<T>,
-    System.Collections.Generic.IReadOnlyCollection<T>,
-    System.Collections.Generic.IReadOnlySet<T>,
-    System.Collections.Generic.ISet<T>,
-    System.Runtime.Serialization.IDeserializationCallback,
-    System.Runtime.Serialization.ISerializable
+public class HashTable<T> : ICollection<T>,
+    IEnumerable<T>,
+    IReadOnlyCollection<T>,
+    IReadOnlySet<T>,
+    ISet<T>,
+    IDeserializationCallback,
+    ISerializable
 {
     private int _count;
+
     int ICollection<T>.Count => _count;
     public bool IsReadOnly { get; }
-
-    int IReadOnlyCollection<T>.Count => _count;
-    public HashTable()
-    {
-        
-    }
 
 
     public IEnumerator<T> GetEnumerator()
@@ -32,13 +27,75 @@ public class HashTable<T> : System.Collections.Generic.ICollection<T>,
         return GetEnumerator();
     }
 
-    public bool Add(T item)
+    void ICollection<T>.Add(T item)
     {
-        _count++;
+        throw new NotImplementedException();
+    }
+
+    public void Clear()
+    {
+        throw new NotImplementedException();
+    }
+
+    bool ICollection<T>.Contains(T item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CopyTo(T[] array, int arrayIndex)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Remove(T item)
+    {
+        _count--;
         return true;
     }
 
-    void ICollection<T>.Add(T item)
+    public void OnDeserialization(object? sender)
+    {
+        throw new NotImplementedException();
+    }
+
+    int IReadOnlyCollection<T>.Count => _count;
+
+    bool IReadOnlySet<T>.IsProperSubsetOf(IEnumerable<T> other)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool IReadOnlySet<T>.IsProperSupersetOf(IEnumerable<T> other)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool IReadOnlySet<T>.IsSubsetOf(IEnumerable<T> other)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool IReadOnlySet<T>.IsSupersetOf(IEnumerable<T> other)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool IReadOnlySet<T>.Overlaps(IEnumerable<T> other)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool IReadOnlySet<T>.SetEquals(IEnumerable<T> other)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool IReadOnlySet<T>.Contains(T item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
         throw new NotImplementedException();
     }
@@ -98,69 +155,9 @@ public class HashTable<T> : System.Collections.Generic.ICollection<T>,
         throw new NotImplementedException();
     }
 
-    public void Clear()
+    public bool Add(T item)
     {
-        throw new NotImplementedException();
-    }
-
-    bool ICollection<T>.Contains(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool IReadOnlySet<T>.IsProperSubsetOf(IEnumerable<T> other)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool IReadOnlySet<T>.IsProperSupersetOf(IEnumerable<T> other)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool IReadOnlySet<T>.IsSubsetOf(IEnumerable<T> other)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool IReadOnlySet<T>.IsSupersetOf(IEnumerable<T> other)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool IReadOnlySet<T>.Overlaps(IEnumerable<T> other)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool IReadOnlySet<T>.SetEquals(IEnumerable<T> other)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CopyTo(T[] array, int arrayIndex)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool Remove(T item)
-    {
-        _count--;
+        _count++;
         return true;
-    }
-
-    bool IReadOnlySet<T>.Contains(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnDeserialization(object? sender)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        throw new NotImplementedException();
     }
 }

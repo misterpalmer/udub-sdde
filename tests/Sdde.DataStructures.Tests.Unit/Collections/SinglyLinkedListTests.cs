@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using Sdde.Collections.Generic;
 using Sdde.DataStructures.Tests.Unit.Data;
 
 namespace Sdde.Collections.Generic.Tests.Unit;
@@ -7,13 +5,14 @@ namespace Sdde.Collections.Generic.Tests.Unit;
 public class SinglyLinkedListTests
 {
     private readonly ITestOutputHelper output;
+
     public SinglyLinkedListTests(ITestOutputHelper output)
     {
         this.output = output;
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByNode_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -21,19 +20,13 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddFirst(new SinglyNode<int>(index));
-        }
-        
-        foreach(var element in sut)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddFirst(new SinglyNode<int>(index));
+
+        foreach (var element in sut) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -43,7 +36,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByNode_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -51,20 +44,14 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        IEnumerator<int> looper = sut.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = sut.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddFirst(new SinglyNode<int>(index));
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddFirst(new SinglyNode<int>(index));
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -74,7 +61,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByValue_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -82,19 +69,13 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddFirst(index);
-        }
-        
-        foreach(var element in sut)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddFirst(index);
+
+        foreach (var element in sut) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -104,7 +85,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddFirstByValue_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -112,20 +93,14 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        IEnumerator<int> looper = sut.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = sut.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddFirst(index);
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddFirst(index);
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -133,9 +108,9 @@ public class SinglyLinkedListTests
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexEnd - 1);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByNode_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -143,19 +118,13 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddLast(new SinglyNode<int>(index));
-        }
-        
-        foreach(var element in sut)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddLast(new SinglyNode<int>(index));
+
+        foreach (var element in sut) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -165,7 +134,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByNode_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -173,20 +142,14 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        IEnumerator<int> looper = sut.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = sut.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddLast(new SinglyNode<int>(index));
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddLast(new SinglyNode<int>(index));
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -196,7 +159,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByValue_UsingIEnumerable_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -204,19 +167,13 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddLast(index);
-        }
-        
-        foreach(var element in sut)
-        {
-            actualNodeSum += element;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddLast(index);
+
+        foreach (var element in sut) actualNodeSum += element;
 
         // Assert
         using var scope = new AssertionScope();
@@ -226,7 +183,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.SummationTestData), MemberType = typeof(LinkedListTestsData))]
     public void CreateEmptyList_AddLastByValue_UsingIEnumerator_ReturnSumOfNodesAndListProperties(
         int indexStart,
         int indexEnd,
@@ -234,20 +191,14 @@ public class SinglyLinkedListTests
     {
         // Arrange
         ISinglyLinkedList<int> sut = new SinglyLinkedList<int>();
-        IEnumerator<int> looper = sut.GetEnumerator();
-        int expectedNodeCount = indexEnd - indexStart;
-        int actualNodeSum = 0;
+        var looper = sut.GetEnumerator();
+        var expectedNodeCount = indexEnd - indexStart;
+        var actualNodeSum = 0;
 
         // Act
-        for (int index = indexStart; index < indexEnd; index++)
-        {
-            sut.AddLast(index);
-        }
-        
-        while(looper.MoveNext())
-        {
-            actualNodeSum += looper.Current;
-        }
+        for (var index = indexStart; index < indexEnd; index++) sut.AddLast(index);
+
+        while (looper.MoveNext()) actualNodeSum += looper.Current;
 
         // Assert
         using var scope = new AssertionScope();
@@ -255,9 +206,9 @@ public class SinglyLinkedListTests
         sut.Count.Should<int>().Be(expectedNodeCount);
         sut.First!.Data.Should<int>().Be(indexStart);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByNode_MultipleAddLast_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -274,7 +225,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByValue_MultipleAddLast_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -291,7 +242,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByNode_MultipleAddFirst_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -308,7 +259,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByValue_MultipleAddFirst_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -325,7 +276,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByNode_MultipleAddMixed_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -342,7 +293,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.ThreeNodeData), MemberType = typeof(LinkedListTestsData))]
     public void CreateListByValue_MultipleAddMixed_ReturnListProperties<T>(T first, T second, T third)
     {
         // Arrange
@@ -359,7 +310,8 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData),
+        MemberType = typeof(LinkedListTestsData))]
     public void CreateList_FromIEnumerable_ReturnListProperties<T>(T[] values)
     {
         // Given
@@ -374,7 +326,8 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData),
+        MemberType = typeof(LinkedListTestsData))]
     public void CreateList_FromIEnumerable_ClearList_ReturnListProperties<T>(T[] values)
     {
         // Given
@@ -382,7 +335,7 @@ public class SinglyLinkedListTests
 
         // When
         sut.Clear();
-        
+
         // Then
         using var scope = new AssertionScope();
         sut.Count.Should<int>().Be(0);
@@ -404,22 +357,21 @@ public class SinglyLinkedListTests
     {
         // Arrange
 
-        
+
         // Act
 
 
         //Assert
-
-        
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData),
+        MemberType = typeof(LinkedListTestsData))]
     public void Contains_FindRandomIndexFromInput_ReturnsTrue<T>(T[] values)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        Random random = new Random();
+        var random = new Random();
         var index = random.Next(values.Count());
 
         // When
@@ -431,7 +383,7 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType = typeof(LinkedListTestsData))]
     public void Contains_FindRandomIndexFromInput_ReturnsFalse<T>(T[] values, T input)
     {
         // Given
@@ -446,15 +398,16 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence),
+        MemberType = typeof(LinkedListTestsData))]
     public void RemoveNode_FindValueSingleOccurrence_ReturnsNullLessOne<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - 1;
-        
+        var expectedNodeCount = values.Length - 1;
+
         // When
-        ISinglyNode<T> node = sut.Find(input);
+        var node = sut.Find(input);
         sut.Remove(node);
         var result = sut.Find(input);
 
@@ -463,17 +416,18 @@ public class SinglyLinkedListTests
         result.Should().BeNull();
         sut.Count.Should<int>().Be(expectedNodeCount);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataMultipleOccurrences), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataMultipleOccurrences),
+        MemberType = typeof(LinkedListTestsData))]
     public void RemoveNode_FindValueMultipleOccurrence_ReturnsNotNullLessOne<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - 1;
-        
+        var expectedNodeCount = values.Length - 1;
+
         // When
-        ISinglyNode<T> node = sut.Find(input);
+        var node = sut.Find(input);
         sut.Remove(node);
         var result = sut.Find(input);
 
@@ -482,14 +436,14 @@ public class SinglyLinkedListTests
         result.Should().NotBeNull();
         sut.Count.Should<int>().Be(expectedNodeCount);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType = typeof(LinkedListTestsData))]
     public void RemoveNode_FindValueZeroOccurrences_ReturnsNullEqualCount<T>(T[] values, T input)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        
+
         // When
         ISinglyNode<T> node = new SinglyNode<T>(input);
         sut.Remove(node);
@@ -500,15 +454,16 @@ public class SinglyLinkedListTests
         result.Should().BeNull();
         sut.Count.Should<int>().Be(values.Length);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence),
+        MemberType = typeof(LinkedListTestsData))]
     public void RemoveValue_FindValueSingleOccurrence_ReturnsFalse<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - 1;
-        
+        var expectedNodeCount = values.Length - 1;
+
         // When
         sut.Remove(input);
         var result = sut.Find(input);
@@ -518,15 +473,16 @@ public class SinglyLinkedListTests
         result.Should().BeNull();
         sut.Count.Should<int>().Be(expectedNodeCount);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataMultipleOccurrences), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataMultipleOccurrences),
+        MemberType = typeof(LinkedListTestsData))]
     public void RemoveValue_FindValueMultipleOccurrences_ReturnsNotNullLessOne<T>(T[] values, T input, int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - 1;
-        
+        var expectedNodeCount = values.Length - 1;
+
         // When
         sut.Remove(input);
         var result = sut.Find(input);
@@ -536,14 +492,14 @@ public class SinglyLinkedListTests
         result.Should().NotBeNull();
         sut.Count.Should<int>().Be(expectedNodeCount);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType = typeof(LinkedListTestsData))]
     public void RemoveValue_FindValueZeroOccurrences_ReturnsNullEqualCount<T>(T[] values, T input)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        
+
         // When
         sut.Remove(input);
         var result = sut.Find(input);
@@ -555,13 +511,15 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveAllValues_FindValueSingleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input, int occurrences)
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence),
+        MemberType = typeof(LinkedListTestsData))]
+    public void RemoveAllValues_FindValueSingleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input,
+        int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - occurrences;
-        
+        var expectedNodeCount = values.Length - occurrences;
+
         // When
         sut.RemoveAll(input);
         var result = sut.Find(input);
@@ -570,15 +528,17 @@ public class SinglyLinkedListTests
         result.Should().BeNull();
         sut.Count.Should<int>().Be(expectedNodeCount);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence), MemberType= typeof(LinkedListTestsData))]
-    public void RemoveAllValues_FindValueMultipleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input, int occurrences)
+    [MemberData(nameof(LinkedListTestsData.PositiveSearchDataSingleOccurrence),
+        MemberType = typeof(LinkedListTestsData))]
+    public void RemoveAllValues_FindValueMultipleOccurrence_ReturnsNullLessAllOccurrences<T>(T[] values, T input,
+        int occurrences)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - occurrences;
-        
+        var expectedNodeCount = values.Length - occurrences;
+
         // When
         sut.RemoveAll(input);
         var result = sut.Find(input);
@@ -587,9 +547,9 @@ public class SinglyLinkedListTests
         result.Should().BeNull();
         sut.Count.Should<int>().Be(expectedNodeCount);
     }
-    
+
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.NegativeSearchData), MemberType = typeof(LinkedListTestsData))]
     public void RemoveAllValues_FindValueZeroOccurrences_ReturnsNullEqualCount<T>(T[] values, T input)
     {
         // Given
@@ -605,12 +565,13 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData),
+        MemberType = typeof(LinkedListTestsData))]
     public void RemoveFirst<T>(T[] values)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - 1;
+        var expectedNodeCount = values.Length - 1;
 
         // When
         var node = sut.First;
@@ -623,12 +584,13 @@ public class SinglyLinkedListTests
     }
 
     [Theory]
-    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData), MemberType= typeof(LinkedListTestsData))]
+    [MemberData(nameof(LinkedListTestsData.CreateLinkedListFromIEnumerableData),
+        MemberType = typeof(LinkedListTestsData))]
     public void RemoveLast<T>(T[] values)
     {
         // Given
         ISinglyLinkedList<T> sut = new SinglyLinkedList<T>(values);
-        int expectedNodeCount = values.Length - 1;
+        var expectedNodeCount = values.Length - 1;
 
         // When
         sut.RemoveLast();

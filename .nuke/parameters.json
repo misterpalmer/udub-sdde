@@ -1,5 +1,7 @@
 {
   "$schema": "./build.schema.json",
   "Configuration": "Debug",
-  "Solution": "Sdde.sln"
+  "Solution": "Sdde.sln",
+  "CoverallsRepoToken": "v1:4O4tQ81prBn7M1QnsRO4jlSxkm3q/9ydn6BCH8JTpbg8dIk++lo/zMLk7b9e/c6w",
+  "CodecovToken": "v1:DNBWIDRrDBAEmtWCH267+LKRsENhbRPFqUC5cHKERU9cSgWlU5QRLvgsTqBl7EjR"
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Sdde.Benchmarks.Algorithms.SortingBenchmarks.QuicksortStringBenchmark-20230426-044453</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.5, OS=Windows 11 (10.0.22000.1817/21H2/SunValley)
+Intel Xeon E-2176M CPU 2.70GHz, 1 CPU, 12 logical and 6 physical cores
+.NET SDK=7.0.203
+  [Host]     : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+  Job-PVQIWP : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>Server=True  
+</code></pre>
+
+<table>
+<thead><tr><th>                 Method</th><th>N</th><th>     Mean</th><th>  Error</th><th> StdDev</th><th> StdErr</th><th>   Median</th><th>      Min</th><th>      Max</th><th>       Q1</th><th>       Q3</th><th> Op/s</th><th>Rank</th><th>Gen0</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>QuicksortPivotMiddleStrings</td><td>100</td><td>30.80 &mu;s</td><td>0.610 &mu;s</td><td>0.678 &mu;s</td><td>0.156 &mu;s</td><td>30.96 &mu;s</td><td>28.75 &mu;s</td><td>31.47 &mu;s</td><td>30.89 &mu;s</td><td>31.10 &mu;s</td><td>32,463.5317</td><td>1</td><td>-</td><td>-</td>
+</tr><tr><td>QuicksortPivotBitShiftStrings</td><td>100</td><td>31.69 &mu;s</td><td>0.777 &mu;s</td><td>2.290 &mu;s</td><td>0.229 &mu;s</td><td>31.56 &mu;s</td><td>28.44 &mu;s</td><td>37.69 &mu;s</td><td>29.69 &mu;s</td><td>33.25 &mu;s</td><td>31,558.6978</td><td>1</td><td>-</td><td>-</td>
+</tr><tr><td>QuicksortPivotRandomStrings</td><td>100</td><td>59.93 &mu;s</td><td>1.122 &mu;s</td><td>1.843 &mu;s</td><td>0.312 &mu;s</td><td>59.34 &mu;s</td><td>57.91 &mu;s</td><td>64.17 &mu;s</td><td>58.66 &mu;s</td><td>60.67 &mu;s</td><td>16,685.8844</td><td>2</td><td>0.2441</td><td>21584 B</td>
+</tr><tr><td>QuicksortPivotLeftStrings</td><td>100</td><td>239.75 &mu;s</td><td>5.322 &mu;s</td><td>15.693 &mu;s</td><td>1.569 &mu;s</td><td>233.90 &mu;s</td><td>223.70 &mu;s</td><td>290.92 &mu;s</td><td>225.55 &mu;s</td><td>251.96 &mu;s</td><td>4,171.0329</td><td>3</td><td>-</td><td>-</td>
+</tr><tr><td>QuicksortPivotRightStrings</td><td>100</td><td>250.10 &mu;s</td><td>4.852 &mu;s</td><td>7.972 &mu;s</td><td>1.348 &mu;s</td><td>250.67 &mu;s</td><td>228.82 &mu;s</td><td>264.57 &mu;s</td><td>247.32 &mu;s</td><td>253.78 &mu;s</td><td>3,998.4292</td><td>4</td><td>-</td><td>-</td>
+</tr><tr><td>QuicksortPivotBitShiftStrings</td><td>1000</td><td>479.98 &mu;s</td><td>9.970 &mu;s</td><td>29.084 &mu;s</td><td>2.938 &mu;s</td><td>467.97 &mu;s</td><td>449.08 &mu;s</td><td>574.64 &mu;s</td><td>456.74 &mu;s</td><td>500.75 &mu;s</td><td>2,083.4346</td><td>5</td><td>-</td><td>-</td>
+</tr><tr><td>QuicksortPivotMiddleStrings</td><td>1000</td><td>492.22 &mu;s</td><td>9.812 &mu;s</td><td>19.137 &mu;s</td><td>2.791 &mu;s</td><td>496.52 &mu;s</td><td>464.74 &mu;s</td><td>529.87 &mu;s</td><td>471.43 &mu;s</td><td>504.40 &mu;s</td><td>2,031.6321</td><td>6</td><td>-</td><td>-</td>
+</tr><tr><td>QuicksortPivotRandomStrings</td><td>1000</td><td>844.05 &mu;s</td><td>16.763 &mu;s</td><td>30.652 &mu;s</td><td>4.730 &mu;s</td><td>846.15 &mu;s</td><td>788.91 &mu;s</td><td>909.54 &mu;s</td><td>818.52 &mu;s</td><td>861.53 &mu;s</td><td>1,184.7669</td><td>7</td><td>1.9531</td><td>213712 B</td>
+</tr><tr><td>QuicksortPivotMiddleStrings</td><td>10000</td><td>6,527.00 &mu;s</td><td>75.775 &mu;s</td><td>63.275 &mu;s</td><td>17.549 &mu;s</td><td>6,538.39 &mu;s</td><td>6,422.57 &mu;s</td><td>6,614.71 &mu;s</td><td>6,458.51 &mu;s</td><td>6,577.53 &mu;s</td><td>153.2097</td><td>8</td><td>-</td><td>4 B</td>
+</tr><tr><td>QuicksortPivotBitShiftStrings</td><td>10000</td><td>6,816.14 &mu;s</td><td>131.861 &mu;s</td><td>180.493 &mu;s</td><td>35.398 &mu;s</td><td>6,780.34 &mu;s</td><td>6,490.62 &mu;s</td><td>7,170.81 &mu;s</td><td>6,700.22 &mu;s</td><td>6,966.11 &mu;s</td><td>146.7107</td><td>9</td><td>-</td><td>4 B</td>
+</tr><tr><td>QuicksortPivotRandomStrings</td><td>10000</td><td>10,399.67 &mu;s</td><td>187.127 &mu;s</td><td>378.006 &mu;s</td><td>53.458 &mu;s</td><td>10,372.24 &mu;s</td><td>9,835.65 &mu;s</td><td>11,221.94 &mu;s</td><td>10,034.29 &mu;s</td><td>10,692.27 &mu;s</td><td>96.1569</td><td>10</td><td>15.6250</td><td>2124056 B</td>
+</tr><tr><td>QuicksortPivotRightStrings</td><td>1000</td><td>23,965.76 &mu;s</td><td>477.770 &mu;s</td><td>1,162.958 &mu;s</td><td>139.000 &mu;s</td><td>24,086.11 &mu;s</td><td>22,409.36 &mu;s</td><td>26,512.75 &mu;s</td><td>22,798.43 &mu;s</td><td>24,781.80 &mu;s</td><td>41.7262</td><td>11</td><td>-</td><td>16 B</td>
+</tr><tr><td>QuicksortPivotLeftStrings</td><td>1000</td><td>24,032.18 &mu;s</td><td>479.353 &mu;s</td><td>1,304.116 &mu;s</td><td>140.626 &mu;s</td><td>23,397.42 &mu;s</td><td>22,565.34 &mu;s</td><td>27,402.28 &mu;s</td><td>22,961.56 &mu;s</td><td>25,192.79 &mu;s</td><td>41.6109</td><td>11</td><td>-</td><td>16 B</td>
+</tr><tr><td>QuicksortPivotLeftStrings</td><td>10000</td><td>2,364,713.91 &mu;s</td><td>28,105.447 &mu;s</td><td>23,469.321 &mu;s</td><td>6,509.218 &mu;s</td><td>2,359,886.88 &mu;s</td><td>2,327,435.17 &mu;s</td><td>2,396,573.75 &mu;s</td><td>2,345,344.86 &mu;s</td><td>2,386,390.23 &mu;s</td><td>0.4229</td><td>12</td><td>-</td><td>32 B</td>
+</tr><tr><td>QuicksortPivotRightStrings</td><td>10000</td><td>2,456,674.87 &mu;s</td><td>41,825.731 &mu;s</td><td>39,123.814 &mu;s</td><td>10,101.725 &mu;s</td><td>2,448,936.14 &mu;s</td><td>2,394,142.19 &mu;s</td><td>2,514,695.60 &mu;s</td><td>2,433,227.13 &mu;s</td><td>2,486,051.64 &mu;s</td><td>0.4071</td><td>13</td><td>-</td><td>32 B</td>
+</tr></tbody></table>
+</body>
+</html>

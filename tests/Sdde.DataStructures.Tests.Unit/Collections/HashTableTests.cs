@@ -1,7 +1,4 @@
-﻿using Xunit.Sdk;
-
-namespace Sdde.Collections.Generic.Tests.Unit;
-
+﻿namespace Sdde.Collections.Generic.Tests.Unit;
 
 public class HashTableTests
 {

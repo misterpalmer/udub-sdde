@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Sdde.Collections.Generic;
 
-
 public class SinglyLinkedListEnumerator<T> : IEnumerator<T>
 {
-    private ISinglyNode<T> _head;
     private ISinglyNode<T> _current;
+    private readonly ISinglyNode<T> _head;
+
     public SinglyLinkedListEnumerator(ISinglyNode<T> input)
     {
         _current = _head = input;
@@ -19,15 +18,14 @@ public class SinglyLinkedListEnumerator<T> : IEnumerator<T>
 
     public void Dispose()
     {
-        
     }
 
     public bool MoveNext()
     {
         if (_current is null) return false;
-        
+
         _current = _current.Next!;
-        return (_current is not null);
+        return _current is not null;
     }
 
     public void Reset()
