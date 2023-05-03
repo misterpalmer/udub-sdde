@@ -1,3 +1,33 @@
+// TODO - add three-way partioning
+
+
+
+// TODO - add license header
+// TODO - add unit tests
+// TODO - add comments
+// TODO - add xml comments
+// TODO - add readme
+// TODO - add nuget package
+// TODO - add build script
+// TODO - add build badge
+// TODO - add appveyor
+// TODO - add travis
+// TODO - add codecov
+// TODO - add coveralls
+// TODO - add codefactor
+// TODO - add codacy
+// TODO - add sonarcloud
+// TODO - add azure pipelines
+// TODO - add azure devops
+// TODO - add github actions
+// TODO - add gitlab ci
+// TODO - add bitrise
+// TODO - add circleci
+// TODO - add codeclimate
+// TODO - add codebeat
+// TODO - add codefactor
+
+
 namespace Sdde.Algorithms.Sorts;
 
 public class QuicksortArray
@@ -11,25 +41,11 @@ public class QuicksortArray
     {
         if (left.CompareTo(right) >= 0) return;
 
-        // var start = left;
-        // var end = right;
-
         int pivotIndex = PickAPivotIndex(left, right, pivotMethod);
         (var start, var end) = Partition(array, left, right, pivotIndex);
 
-        // Sort(array, left, start - 1, pivotMethod);
-        // Sort(array, start, right, pivotMethod);
-
-        if (left < end)
-        {
-            Sort(array, left, end, pivotMethod);
-        }
-
-        if (start < right)
-        {
-            Sort(array, start, right, pivotMethod);
-        }
-
+        if (left < end) Sort(array, left, end, pivotMethod);
+        if (start < right) Sort(array, start, right, pivotMethod);
     }
 
     private static (int, int) Partition<T>(T[] array, int start, int end, int pivotIndex) where T : IComparable<T>
@@ -39,13 +55,28 @@ public class QuicksortArray
         if (array[start].CompareTo(array[end]) == 1) Swap(ref array[start], ref array[end]);
         while (start < end)
         {
-            // T pivotValue = array[pivotIndex];
             while (array[start].CompareTo(pivotValue) == -1) start++;
             while (array[end].CompareTo(pivotValue) == 1) end--;
             if (start <= end) Swap(ref array[start++], ref array[end--]);
         }
 
         return (start, end);
+    }
+
+    private static (int, int, int) ThreeWayPartition<T>(T[] array, int start, int end, int pivotIndex) where T : IComparable<T>
+    {
+        // TODO - implement three-way partitioning
+        T pivotValue = array[pivotIndex];
+        // obvious tweak
+        if (array[start].CompareTo(array[end]) == 1) Swap(ref array[start], ref array[end]);
+        while (start < end)
+        {
+            while (array[start].CompareTo(pivotValue) == -1) start++;
+            while (array[end].CompareTo(pivotValue) == 1) end--;
+            if (start <= end) Swap(ref array[start++], ref array[end--]);
+        }
+
+        return (start, pivotIndex, end);
     }
 
     public static void Swap<T>(ref T left, ref T right)

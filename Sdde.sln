@@ -28,6 +28,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8992E99F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sdde.Algorithms.Tests.Unit", "tests\Sdde.Algorithms.Tests.Unit\Sdde.Algorithms.Tests.Unit.csproj", "{66B54CD2-6AE1-471B-B2F5-1E0B773560D0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{6F9E9CAD-E072-4C6C-8116-0167CADEDF69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdde.Benchmarks", "benchmarks\Sdde.Benchmarks\Sdde.Benchmarks.csproj", "{B8545AE3-112F-4BA5-B656-129943859505}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +60,10 @@ Global
 		{66B54CD2-6AE1-471B-B2F5-1E0B773560D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66B54CD2-6AE1-471B-B2F5-1E0B773560D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66B54CD2-6AE1-471B-B2F5-1E0B773560D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8545AE3-112F-4BA5-B656-129943859505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8545AE3-112F-4BA5-B656-129943859505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8545AE3-112F-4BA5-B656-129943859505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8545AE3-112F-4BA5-B656-129943859505}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +75,7 @@ Global
 		{2501BF8F-2DFC-4A83-B997-E43419055638} = {DB5933C3-0DBC-4F46-8FA2-48BEF6DF1074}
 		{B72BFFF2-203C-4F4B-B167-4D2E7ECE9229} = {AAE7F32B-0E16-4EB2-8D0C-A87777921F1D}
 		{66B54CD2-6AE1-471B-B2F5-1E0B773560D0} = {DB5933C3-0DBC-4F46-8FA2-48BEF6DF1074}
+		{B8545AE3-112F-4BA5-B656-129943859505} = {6F9E9CAD-E072-4C6C-8116-0167CADEDF69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4C5B87BE-A885-4B79-AB24-CDD508A423C2}

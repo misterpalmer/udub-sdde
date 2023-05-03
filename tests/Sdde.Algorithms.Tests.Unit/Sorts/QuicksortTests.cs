@@ -130,4 +130,35 @@ public class QuicksortTests
         using var scope = new AssertionScope();
         sut.Should().BeInAscendingOrder();
     }
+
+    [Fact]
+    public void SortOnCustomType()
+    {
+        // Given
+        var sut = new[] { new Person("John", "Doe"), new Person("Jane", "Doe") };
+
+        // When
+        QuicksortArray.Execute(sut, QuicksortArray.PivotMethod.BitShift);
+
+        // Then
+    }
+}
+
+public class Person : IComparable<Person>
+{
+    public Person(string firstName, string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public string FirstName { get; }
+    public string LastName { get; }
+
+    public int CompareTo(Person other)
+    {
+        var lastNameComparison = string.Compare(LastName, other.LastName, StringComparison.Ordinal);
+        if (lastNameComparison != 0) return lastNameComparison;
+        return string.Compare(FirstName, other.FirstName, StringComparison.Ordinal);
+    }
 }
