@@ -4,6 +4,15 @@ namespace Sdde.Collections.Generic;
 
 public class MinMaxHeap<T> : IEnumerable<T> where T : IComparable<T>
 {
+    // public int MIN_HEAP_FUNC(T left, T right) => comparer.Compare(left, right);
+    // public int MAX_HEAP_FUNC(T left, T right) => comparer.Compare(right, left);
+
+    // public static int MIN_HEAP_FUNC(T left, T right) => left.CompareTo(right);
+    // public static int MAX_HEAP_FUNC(T left, T right) => right.CompareTo(left);
+    private Func<T, T, int> MIN_HEAP_FUNC = (x, y) => x.CompareTo(y);
+    private Func<T, T, int> MAX_HEAP_FUNC = (x, y) => y.CompareTo(x);
+    private Func<T, T, int> ComparisonFunc => IsMinHeap ? MIN_HEAP_FUNC : MAX_HEAP_FUNC;
+
     private int _count;
     public const int DefaultCapacity = 100;
     protected readonly IEnumerable<T> heap;
@@ -31,42 +40,47 @@ public class MinMaxHeap<T> : IEnumerable<T> where T : IComparable<T>
     public MinMaxHeap(IEnumerable<T> array, IComparer<T> comparer) : this(array, HeapType.Min, comparer) { }
 
 
-    public IEnumerable<T> HeapSort(T[] array, int size)
+    public T[] HeapSort(T[] array, int size)
     {
         ArgumentNullException.ThrowIfNull(array);
         if (size <= 1) return array;
-        // if (array.Count() <= 1) return array;
-        // int startIndex = (size / 2);
+
         int startIndex = (size / 2) - 1;
-        // int startIndex = size;
         for (int currentIndex = startIndex; currentIndex >= 0; currentIndex--)
         {
-            MaxHeapify(array, size, currentIndex);
-            // MinHeapify(array, currentIndex, size);
+            Heapify(array, size, currentIndex);
+            // MinHeapify(array, size, currentIndex);
+            // MaxHeapify(array, size, currentIndex);
         }
-
-        // for (int currentIndex = size - 1; currentIndex >= 0; currentIndex--)
-        // {
-        //     Swap(ref array.ToArray()[0], ref array.ToArray()[currentIndex]);
-        //     // Swap(ref array[0], ref array[currentIndex]);
-        //     Heapify(array, currentIndex, 0);
-        // }
 
         return array;
     }
 
-    private void MaxHeapify(T[] array, int size, int index)
+    /// <summary>
+    /// Swaps the elements at the given indices
+    /// </summary>
+    public void Swap(ref T left, ref T right)
+    {
+        var temp = left;
+        left = right;
+        right = temp;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    private void Heapify(T[] array, int size, int index)
     {
         var current = index;
 
         if (GetLeftChildIndex(index) < size
-            && array.ElementAt(GetLeftChildIndex(index)).CompareTo(array.ElementAt(current)) > 0)
+            && ComparisonFunc(array.ElementAt(GetLeftChildIndex(index)), array.ElementAt(current)) < 0)
         {
             current = GetLeftChildIndex(index);
         }
 
         if (GetRightChildIndex(index) < size
-            && array.ElementAt(GetRightChildIndex(index)).CompareTo(array.ElementAt(current)) > 0)
+            && ComparisonFunc(array.ElementAt(GetRightChildIndex(index)), array.ElementAt(current)) < 0)
         {
             current = GetRightChildIndex(index);
         }
@@ -74,32 +88,62 @@ public class MinMaxHeap<T> : IEnumerable<T> where T : IComparable<T>
         if (current != index)
         {
             Swap(ref array[index], ref array[current]);
-            MaxHeapify(array, size, current);
+            Heapify(array, size, current);
         }
     }
 
-    private void MinHeapify(T[] array, int size, int index)
-    {
-        var current = index;
+    // // // /// <summary>
+    // // // ///
+    // // // /// </summary>
+    // // // private void MinHeapify(T[] array, int size, int index)
+    // // // {
+    // // //     var current = index;
 
-        if (GetLeftChildIndex(index) < size
-            && array.ElementAt(GetLeftChildIndex(index)).CompareTo(array.ElementAt(current)) < 0)
-        {
-            current = GetLeftChildIndex(index);
-        }
+    // // //     if (GetLeftChildIndex(index) < size
+    // // //         && ComparisonFunc(array.ElementAt(GetLeftChildIndex(index)), array.ElementAt(current)) < 0)
+    // // //     {
+    // // //         current = GetLeftChildIndex(index);
+    // // //     }
 
-        if (GetRightChildIndex(index) < size
-            && array.ElementAt(GetRightChildIndex(index)).CompareTo(array.ElementAt(current)) < 0)
-        {
-            current = GetRightChildIndex(index);
-        }
+    // // //     if (GetRightChildIndex(index) < size
+    // // //         && ComparisonFunc(array.ElementAt(GetRightChildIndex(index)), array.ElementAt(current)) < 0)
+    // // //     {
+    // // //         current = GetRightChildIndex(index);
+    // // //     }
 
-        if (current != index)
-        {
-            Swap(ref array[index], ref array[current]);
-            MinHeapify(array, current, size);
-        }
-    }
+    // // //     if (current != index)
+    // // //     {
+    // // //         Swap(ref array[index], ref array[current]);
+    // // //         MinHeapify(array, size, current);
+    // // //     }
+    // // // }
+
+
+    // // // /// <summary>
+    // // // ///
+    // // // /// </summary>
+    // // // private void MaxHeapify(T[] array, int size, int index)
+    // // // {
+    // // //     var current = index;
+
+    // // //     if (GetLeftChildIndex(index) < size
+    // // //         && ComparisonFunc(array.ElementAt(GetLeftChildIndex(index)), array.ElementAt(current)) < 0)
+    // // //     {
+    // // //         current = GetLeftChildIndex(index);
+    // // //     }
+
+    // // //     if (GetRightChildIndex(index) < size
+    // // //         && ComparisonFunc(array.ElementAt(GetRightChildIndex(index)), array.ElementAt(current)) < 0)
+    // // //     {
+    // // //         current = GetRightChildIndex(index);
+    // // //     }
+
+    // // //     if (current != index)
+    // // //     {
+    // // //         Swap(ref array[index], ref array[current]);
+    // // //         MaxHeapify(array, size, current);
+    // // //     }
+    // // // }
 
     /// <summary>
     public void siftDown(int index)
@@ -139,15 +183,6 @@ public class MinMaxHeap<T> : IEnumerable<T> where T : IComparable<T>
         }
     }
 
-    /// <summary>
-    /// Swaps the elements at the given indices
-    /// </summary>
-    public void Swap(ref T left, ref T right)
-    {
-        var temp = left;
-        left = right;
-        right = temp;
-    }
 
     /// <summary>
     /// Compares two elements of the heap
@@ -221,15 +256,9 @@ public class MinMaxHeap<T> : IEnumerable<T> where T : IComparable<T>
     private T GetRightChild(int elementIndex) => heap.ElementAt(GetRightChildIndex(elementIndex));
     private T GetParent(int elementIndex) => heap.ElementAt(GetParentIndex(elementIndex));
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
+    public IEnumerator<T> GetEnumerator() => heap.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
 public enum HeapType

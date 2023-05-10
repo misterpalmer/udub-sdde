@@ -172,6 +172,30 @@ public class MinMaxHeapTests
     }
 
     [Fact]
+    public void BuildMinHeap()
+    {
+        // Arrange
+        int[] values = new int[] { 73, 57, 49, 99, 133, 20, 1 };
+        int[] expectedValues = new int[] { 1, 20, 49, 57, 73, 99, 133 };
+        values = new int[] {12, 2, 24, 51, 8, -5};
+        expectedValues = new int[] { -5, 2, 8, 12, 24, 51 };
+        values = new int[] { 10, 1, 23, 50, 7, -4 };
+        expectedValues = new int[] { -4, 1, 7, 10, 23, 50 };
+        values = new int[] { 5, 9, 3, 1, 8, 6 };
+        expectedValues = new int[] { 1, 3, 5, 6, 8, 9 };
+
+        // Act
+        MinMaxHeap<int> heap = new MinMaxHeap<int>(values, HeapType.Min, Comparer<int>.Default);
+
+        // Assert
+        heap.Count.Should().Be(values.Length);
+        heap.Capacity.Should().Be(values.Length);
+        heap.IsMinHeap.Should().BeTrue();
+        heap.Comparer.Should().Be(Comparer<int>.Default);
+        heap.Should().BeEquivalentTo(expectedValues);
+    }
+
+    [Fact]
     public void BuildMaxHeap()
     {
         // Arrange
@@ -188,25 +212,7 @@ public class MinMaxHeapTests
         heap.Capacity.Should().Be(values.Length);
         heap.IsMinHeap.Should().BeFalse();
         heap.Comparer.Should().Be(Comparer<int>.Default);
-        // heap.Should().BeEquivalentTo(expectedValues);
-    }
-
-    [Fact]
-    public void BuildMinHeap()
-    {
-        // Arrange
-        int[] values = new int[] { 73, 57, 49, 99, 133, 20, 1 };
-        int[] expectedValues = new int[] { 1, 20, 49, 57, 73, 99, 133 };
-
-        // Act
-        MinMaxHeap<int> heap = new MinMaxHeap<int>(values, HeapType.Min, Comparer<int>.Default);
-
-        // Assert
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.IsMinHeap.Should().BeTrue();
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-        // heap.Should().BeEquivalentTo(expectedValues);
+        heap.Should().BeEquivalentTo(expectedValues);
     }
 
     [Fact]
