@@ -1,7 +1,7 @@
 using AutoFixture;
 using Sdde.Algorithms.Tests.Unit.Data;
 
-namespace Sdde.Algorithms.Tests;
+namespace Sdde.Algorithms.Tests.Unit;
 
 public class TwoIntegerTargetSumTests
 {
