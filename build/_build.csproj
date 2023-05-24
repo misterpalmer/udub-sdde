@@ -12,14 +12,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodecovUploader" Version="0.4.1" />
-    <PackageReference Include="coverlet.collector" Version="3.2.0" />
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1">
+    <PackageReference Include="CodecovUploader" Version="0.5.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Nuke.Common" Version="7.0.0" />
-    <PackageReference Include="ReportGenerator" Version="5.1.19" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.2.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Nuke.Common" Version="7.0.2" />
+    <PackageReference Include="ReportGenerator" Version="5.1.21" />
     <PackageReference Include="XunitXml.TestLogger" Version="3.0.78" />
   </ItemGroup>
 
@@ -31,8 +34,8 @@
     <PackageDownload Include="Codecov.Tool" Version="[1.13.0]" />
     <PackageDownload Include="coveralls.net" Version="[4.0.1]" />
     <PackageDownload Include="coverlet.console" Version="[3.2.0]" />
-    <PackageDownload Include="GitVersion.Tool" Version="[6.0.0-beta.1]" />
-    <PackageDownload Include="Nuke.GlobalTool" Version="[6.3.0]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.0.0-beta.2]" />
+    <PackageDownload Include="Nuke.GlobalTool" Version="[7.0.2]" />
   </ItemGroup>
 
 </Project>
