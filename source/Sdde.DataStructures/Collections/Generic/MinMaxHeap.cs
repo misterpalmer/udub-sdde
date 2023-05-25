@@ -11,10 +11,11 @@ public class MinMaxHeap<T> where T : IComparable<T>
     public int Capacity => Heap.Length;
     private IComparer<T> _comparer;
     public IComparer<T> Comparer => _comparer ?? MinMaxHeapNodeComparer<T>.Default;
-    // private Comparer<T> _comparer;
-    // public Comparer<T> Comparer => _comparer ?? MinMaxHeapNodeComparer<T>.Comparer;
     public Func<T, T, int> ComparisonFunc => Comparer.Compare;
 
+    /// <summary>
+    /// Base constructor
+    /// </summary>
     public MinMaxHeap(IEnumerable<T> array, IComparer<T> comparer)
     {
         Heap = array.ToArray();
@@ -22,61 +23,56 @@ public class MinMaxHeap<T> where T : IComparable<T>
         _comparer = comparer;
         BuildHeap();
     }
-
-    // public MinMaxHeap(IEnumerable<T> array, Comparer<T> comparer)
-    // {
-    //     Heap = array.ToArray();
-    //     Count = array.Count();
-    //     _comparer = comparer;
-    //     BuildHeap();
-    // }
     public MinMaxHeap() : this(new T[DEFAULT_CAPACITY], Comparer<T>.Default) => _count = 0;
     public MinMaxHeap(IEnumerable<T> array) : this(array, Comparer<T>.Default) { }
-    // public MinMaxHeap(Comparer<T> comparer) : this(new T[DEFAULT_CAPACITY], comparer) => _count = 0;
     public MinMaxHeap(IComparer<T> comparer) : this(new T[DEFAULT_CAPACITY], comparer) => _count = 0;
 
     /// <summary>
-    /// Returns the index of the parent of the element at the given index
+    /// Builds the heap from the bottom up *without* recursion
     /// </summary>
-    private void Heapify(int index = 0)
+    private void HeapifyUsingIteration(int parentIndex = 0)
     {
-        while (index < Count)
+        while (parentIndex < Count)
         {
-            if (GetLeftChildIndex(index) >= Count) break;
+            int childIndex = GetLeftChildIndex(parentIndex);
 
-            int current = GetLeftChildIndex(index);
-            if (GetRightChildIndex(index) < Count
-                && Compare(Heap[GetLeftChildIndex(index)], Heap[GetRightChildIndex(index)]) > 0)
+            if (GetLeftChildIndex(parentIndex) >= Count) break;
+
+            if (GetRightChildIndex(parentIndex) < Count
+                && Compare(Heap[GetLeftChildIndex(parentIndex)], Heap[GetRightChildIndex(parentIndex)]) > 0)
             {
-                current = GetRightChildIndex(index);
+                childIndex = GetRightChildIndex(parentIndex);
             }
 
-            if (Compare(Heap[index], Heap[current]) < 0) break;
-            Swap(index, current);
-            index = current;
+            if (Compare(Heap[parentIndex], Heap[childIndex]) < 0) break;
+            Swap(parentIndex, childIndex);
+            parentIndex = childIndex;
         }
     }
 
-    private void Heapify2(int index = 0)
+    /// <summary>
+    /// Builds the heap from the bottom up *with* recursion
+    /// </summary>
+    private void HeapifyUsingRecursion(int parentIndex = 0)
     {
-        var current = index;
+        int childIndex = parentIndex;
 
-        if (GetLeftChildIndex(index) < Count
-            && Compare(Heap[GetLeftChildIndex(index)], Heap[current]) < 0)
+        if (GetLeftChildIndex(parentIndex) < Count
+            && Compare(Heap[GetLeftChildIndex(parentIndex)], Heap[childIndex]) < 0)
         {
-            current = GetLeftChildIndex(index);
+            childIndex = GetLeftChildIndex(parentIndex);
         }
 
-        if (GetRightChildIndex(index) < Count
-            && Compare(Heap[GetRightChildIndex(index)], Heap[current]) < 0)
+        if (GetRightChildIndex(parentIndex) < Count
+            && Compare(Heap[GetRightChildIndex(parentIndex)], Heap[childIndex]) < 0)
         {
-            current = GetRightChildIndex(index);
+            childIndex = GetRightChildIndex(parentIndex);
         }
 
-        if (current != index)
+        if (childIndex != parentIndex)
         {
-            Swap(index, current);
-            Heapify2(current);
+            Swap(parentIndex, childIndex);
+            HeapifyUsingRecursion(childIndex);
         }
     }
 
@@ -92,91 +88,10 @@ public class MinMaxHeap<T> where T : IComparable<T>
         int startIndex = (Count / 2) - 1;
         for (int parentIndex = startIndex; parentIndex >= 0; parentIndex--)
         {
-            Heapify(parentIndex);
-		    // Heapify2(parentIndex);
+            HeapifyUsingIteration(parentIndex);
+		    // HeapifyUsingRecursion(parentIndex);
 	    }
-
     }
-
-    /// <summary>
-    /// Build the heap
-    /// </summary>
-    public virtual void BuildMinHeap(int index = 0)
-    {
-        ArgumentNullException.ThrowIfNull(Heap);
-
-        // first index of non-leaf node
-        int startIndex = (Count / 2) - 1;
-        for (int parentIndex = startIndex; parentIndex >= 0; parentIndex--)
-        {
-            int childIndex = parentIndex;
-            (var left, var right) = (GetLeftChildIndex(parentIndex), GetRightChildIndex(parentIndex));
-            if (Compare(Heap[left], Heap[right]) < 0)
-            {
-                childIndex = left;
-            }
-            else if (Compare(Heap[left], Heap[right]) > 0)
-            {
-                childIndex = right;
-            }
-
-            if ((childIndex < Count) && (childIndex != parentIndex)) Swap(parentIndex, childIndex);
-        }
-    }
-
-    public virtual void BuildMinHeap2(int index = 0)
-    {
-        ArgumentNullException.ThrowIfNull(Heap);
-
-        // first index of non-leaf node
-        int startIndex = (Count / 2) - 1;
-        for (int parentIndex = startIndex; parentIndex >= 0; parentIndex--)
-        {
-            int childIndex = parentIndex;
-            while(HasLeftChild(childIndex))
-            {
-                (var left, var right) = (GetLeftChildIndex(parentIndex), GetRightChildIndex(parentIndex));
-                if ((right < Count) && (Compare(Heap[left], Heap[right]) < 0))
-                {
-                    childIndex = left;
-                }
-                else if ((right < Count) && (Compare(Heap[left], Heap[right]) > 0))
-                {
-                    childIndex = right;
-                }
-
-                if ((childIndex == parentIndex) || (Compare(Heap[childIndex], Heap[parentIndex])) >= 0)
-                {
-                    int ndx = childIndex % 2 == 0 ? childIndex : childIndex - 1;
-                    parentIndex = GetParentIndex(ndx);
-                    break;
-                }
-                Swap(parentIndex, childIndex);
-                parentIndex = childIndex;
-            }
-        }
-    }
-
-    // /// <summary>
-    // /// Build the heap
-    // /// </summary>
-    // public virtual void BuildMaxHeap()
-    // {
-    //     ArgumentNullException.ThrowIfNull(Heap);
-
-    //     SiftUp();
-    //     // int childIndex = 0;
-    //     // while (childIndex < Count - 1)
-    //     // {
-    //     //     int parentIndex = GetParentIndex(childIndex);
-    //     //     if (Compare(Heap[childIndex], Heap[parentIndex]) > 0)
-    //     //     {
-    //     //         Swap(childIndex, parentIndex);
-    //     //     }
-
-    //     //     childIndex++;
-    //     // }
-    // }
 
     /// <summary>
     private void SiftDown(int index)
@@ -376,58 +291,3 @@ public class MinMaxHeap<T> where T : IComparable<T>
     /// </summary>
     private bool HasRightChild(int elementIndex) => GetRightChildIndex(elementIndex) < this.Capacity;
 }
-
-
-// public static class MinHeap
-// {
-//     public static MinMaxHeap<T> Create<T, TPriority>(Func<T, TPriority> priority, IEnumerable<T> items,
-//         IComparer<TPriority>? comparer = null)
-//     {
-//         return new MinMaxHeap<T>(priority, items, comparer);
-//     }
-// }
-
-// public static class MaxHeap
-// {
-//     public static MinMaxHeap<T, TPriority> Create<T, TPriority>(Func<T, TPriority> priority, IEnumerable<T> items,
-//         IComparer<TPriority>? comparer = null)
-//     {
-//         return new MinMaxHeap<T>(priority, items, comparer);
-//     }
-// }
-
-
-/// <summary>
-/// Evaluates if the heap satisfies the heap property
-// /// </summary>
-// public static bool IsHeap(IList<T> array, int size)
-// {
-//     return true;
-// }
-
-
-/// <summary>
-/// Returns the index of the parent of the element at the given index
-/// </summary>
-// private void Heapify(int index)
-// {
-//     var current = index;
-
-//     if (GetLeftChildIndex(index) < Count
-//         && Compare(Heap[GetLeftChildIndex(index)], Heap[current]) < 0)
-//     {
-//         current = GetLeftChildIndex(index);
-//     }
-
-//     if (GetRightChildIndex(index) < Count
-//         && Compare(Heap[GetRightChildIndex(index)], Heap[current]) < 0)
-//     {
-//         current = GetRightChildIndex(index);
-//     }
-
-//     if (current != index)
-//     {
-//         Swap(index, current);
-//         Heapify(current);
-//     }
-// }

@@ -14,288 +14,698 @@ public class MinMaxHeapTests
     }
 
     [Fact]
-    public void InitializeConstructor_Default_ReturnDefaultEmptyArray()
+    public void InitializeMinHeapInteger_UsingEmptyConstructor_ReturnEmptyHeap()
     {
         // Arrange
-        var heap = new MinMaxHeap<int>();;
+
 
         // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeTrue();
-        heap.Count.Should().Be(0);
-        heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Theory]
-    [MemberData(nameof(MinMaxHeapTestsData.TestData), MemberType = typeof(MinMaxHeapTestsData))]
-    public void InitializeConstructor_AllParameters_NonEmptyMinDefault<T>(IList<T> data) where T : IComparable<T>
-    {
-        // Arrange
-        var heap = new MinMaxHeap<T>(data, Comparer<T>.Default);
-
-        // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeFalse();
-        heap.Count.Should().Be(data.Count());
-        heap.Capacity.Should().Be(data.Count());
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Theory]
-    [MemberData(nameof(MinMaxHeapTestsData.TestData), MemberType = typeof(MinMaxHeapTestsData))]
-    public void InitializeConstructor_TheoryDataWithDefaults_NonEmptyMinDefault<T>(IList<T> data) where T : IComparable<T>
-    {
-        // Arrange
-        var heap = new MinMaxHeap<T>(data);
-
-        // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeFalse();
-        heap.Count.Should().Be(data.Count());
-        heap.Capacity.Should().Be(data.Count());
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Fact]
-    public void InitializeConstructor_FixtureDataWithDefaults_NonEmptyMinDefault()
-    {
-        // Arrange
-        var values = fixture.CreateMany<int>().ToArray();
-        var heap = new MinMaxHeap<int>(values);
-
-        // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeFalse();
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Fact]
-    public void InitializeConstructor_MaxHeapType_EmptyMax()
-    {
-        // Arrange
         var heap = new MinMaxHeap<int>();
 
-        // Act
-
         // Assert
         using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<int>.Default);
         heap.IsEmpty.Should().BeTrue();
         heap.Count.Should().Be(0);
         heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
     }
 
     [Fact]
-    public void InitializeConstructor_DefaultComparer_ReturnsDefault()
+    public void InitializeMinHeapChar_UsingEmptyConstructor_ReturnEmptyHeap()
     {
         // Arrange
-        var heap = new MinMaxHeap<int>(Comparer<int>.Default);
+
 
         // Act
+        var heap = new MinMaxHeap<char>();
 
         // Assert
         using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeTrue();
-        heap.Count.Should().Be(0);
-        heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Fact]
-    public void InitializeConstructor_FixtureDataWithMaxHeapType_Returns()
-    {
-        // Arrange
-        var values = fixture.CreateMany<int>().ToArray();
-        var heap = new MinMaxHeap<int>(values);
-
-        // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeFalse();
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Fact]
-    public void InitializeConstructor_FixtureDataWithComparer_Returns()
-    {
-        // Arrange
-        var values = fixture.CreateMany<int>().ToArray();
-        var heap = new MinMaxHeap<int>(values, Comparer<int>.Default);
-
-        // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeFalse();
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Fact]
-    public void InitializeConstructor_HeapType_Comparer_Returns()
-    {
-        // Arrange
-        var heap = new MinMaxHeap<int>(Comparer<int>.Default);
-
-        // Act
-
-        // Assert
-        using var scope = new AssertionScope();
-        heap.IsEmpty.Should().BeTrue();
-        heap.Count.Should().Be(0);
-        heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-    }
-
-    [Fact]
-    public void BuildMinHeap()
-    {
-        // Arrange
-        int[] values = new int[] { 73, 57, 49, 99, 133, 20, 1 };
-        int[] expectedValues = new int[] { 1, 20, 49, 57, 73, 99, 133 };
-        // values = new int[] {12, 2, 24, 51, 8, -5};
-        // expectedValues = new int[] { -5, 2, 8, 12, 24, 51 };
-        // values = new int[] { 10, 1, 23, 50, 7, -4 };
-        // expectedValues = new int[] { -4, 1, 7, 10, 23, 50 };
-        // values = new int[] { 5, 9, 3, 1, 8, 6 };
-        // expectedValues = new int[] { 1, 3, 5, 6, 8, 9 };
-        // values = new int[] { 4, 1, 3, 2, 16, 9, 10, 14, 8, 7 };
-        // expectedValues = new int[] { 1, 2, 3, 4, 7, 9, 10, 14, 8, 16 };
-        values = new int[] { 3, 9, 2, 1, 4, 5 };
-        expectedValues = new int[] { 1, 3, 2, 9, 4, 5 };
-
-        // Act
-        MinMaxHeap<int> heap = new MinMaxHeap<int>(values, Comparer<int>.Default);
-
-        // Assert
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.Comparer.Should().Be(Comparer<int>.Default);
-        // heap.Should().BeEquivalentTo<int[]>(expectedValues);
-        heap.Heap.Should().Equal(expectedValues);
-    }
-
-    [Fact]
-    public void BuildMinHeap_Comparer()
-    {
-        // Arrange
-        int[] values = new int[] { 73, 57, 49, 99, 133, 20, 1 };
-        int[] expectedValues = new int[] { 1, 20, 49, 57, 73, 99, 133 };
-        values = new int[] { 3, 9, 2, 1, 4, 5 };
-        expectedValues = new int[] { 1, 3, 2, 9, 4, 5 };
-
-        // Act
-        MinMaxHeap<int> heap = new MinMaxHeap<int>(values, MinHeapNodeComparer<int>.Comparer);
-
-        // Assert
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.Comparer.Should().Be(MinHeapNodeComparer<int>.Comparer);
-        heap.Heap.Should().Equal(expectedValues);
-    }
-
-    [Fact]
-    public void BuildMinHeap_CharArray()
-    {
-        // Arrange
-        char[] values = new char[] { 'Z', 'E', 'X', 'C', 'D','P', 'R' };
-        char[] expectedValues = new char[] { 'C', 'D', 'P', 'E', 'Z','X', 'R' };
-
-        // Act
-        MinMaxHeap<char> heap = new MinMaxHeap<char>(values, Comparer<char>.Default);
-
-        // Assert
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
         heap.Comparer.Should().Be(Comparer<char>.Default);
-        heap.Heap.Should().Equal(expectedValues);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<char>.DEFAULT_CAPACITY);
     }
 
     [Fact]
-    public void BuildMinHeap_CharArray_MinComparer()
+    public void InitializeMinHeapInteger_WithDefaultComparer_ReturnEmptyHeap()
     {
         // Arrange
-        char[] values = new char[] { 'Z', 'E', 'X', 'C', 'D','P', 'R' };
-        char[] expectedValues = new char[] { 'C', 'D', 'P', 'E', 'Z','X', 'R' };
+
 
         // Act
-        MinMaxHeap<char> heap = new MinMaxHeap<char>(values, MinHeapNodeComparer<char>.Comparer);
+        var heap = new MinMaxHeap<int>(Comparer<int>.Default);
 
         // Assert
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<int>.Default);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
+    }
+
+    [Fact]
+    public void InitializeMinHeapChar_WithDefaultComparer_ReturnEmptyHeap()
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<char>(Comparer<char>.Default);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<char>.Default);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<char>.DEFAULT_CAPACITY);
+    }
+
+    [Fact]
+    public void InitializeMinHeapInteger_WithMinNodeComparer_ReturnEmptyHeap()
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<int>(MinHeapNodeComparer<int>.Comparer);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<int>.Comparer);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
+    }
+
+    [Fact]
+    public void InitializeMinHeapChar_WithMinNodeComparer_ReturnEmptyHeap()
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<char>(MinHeapNodeComparer<char>.Comparer);
+
+        // Assert
+        using var scope = new AssertionScope();
         heap.Comparer.Should().Be(MinHeapNodeComparer<char>.Comparer);
-        heap.Heap.Should().Equal(expectedValues);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<char>.DEFAULT_CAPACITY);
     }
 
     [Fact]
-    public void BuildMaxHeap()
-    {
-        // Arrange
-        int[] values = new int[] { 1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17};
-        int[] expectedValues = new int[] { 17, 15, 13, 9, 6, 5, 10, 4, 8, 3, 1 };
-        // values = new int[] {12, 2, 24, 51, 8, -5};
-        // expectedValues = new int[] { 51, 12, 24, 2, 8, -5 };
-
-        // Act
-        MinMaxHeap<int> heap = new MinMaxHeap<int>(values, MaxHeapNodeComparer<int>.Comparer);
-
-        // Assert
-        heap.Count.Should().Be(values.Length);
-        heap.Capacity.Should().Be(values.Length);
-        heap.Comparer.Should().Be(MaxHeapNodeComparer<int>.Comparer);
-        // heap.Should().BeEquivalentTo(expectedValues);
-        heap.Heap.Should().Equal(expectedValues);
-    }
-
-    [Fact]
-    public void TestIncreaseHeapSize()
+    public void InitializeMaxHeapInteger_WithMaxNodeComparer_ReturnEmptyHeap()
     {
         // Arrange
 
+
         // Act
+        var heap = new MinMaxHeap<int>(MaxHeapNodeComparer<int>.Comparer);
 
         // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<int>.Comparer);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<int>.DEFAULT_CAPACITY);
     }
 
     [Fact]
-    public void Insert()
+    public void InitializeMaxHeapChar_WithMaxNodeComparer_ReturnEmptyHeap()
     {
         // Arrange
 
         // Act
+        var heap = new MinMaxHeap<char>(MaxHeapNodeComparer<char>.Comparer);
 
         // Assert
-
+        using var scope = new AssertionScope();
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(MinMaxHeap<char>.DEFAULT_CAPACITY);
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<char>.Comparer);
     }
 
-    [Fact]
-    public void Remove()
+
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
     {
         // Arrange
 
+
         // Act
+        var heap = new MinMaxHeap<T>(values);
 
         // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
     }
 
-    public void Heapify()
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithDefaultComparer_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
     {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, Comparer<T>.Default);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithMinNodeComparer_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MinHeapNodeComparer<T>.Comparer);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MaxHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMaxHeap_WithMaxNodeComparer_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MaxHeapNodeComparer<T>.Comparer);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_Clear_ReturnHeapified<T>(IList<T> values) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        heap.Clear();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(Array.Empty<T>());
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_RemoveAll_ReturnHeapified<T>(IList<T> values) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        foreach (var _ in values)
+            heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeTrue();
+        heap.Count.Should().Be(0);
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(Array.Empty<T>());
+    }
+
+
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_RemoveX_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap, int numElementsToRemove) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        for (int i = 0; i < numElementsToRemove; i++)
+            heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count() - numElementsToRemove);
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithDefaultComparer_RemoveX_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap, int numElementsToRemove) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, Comparer<T>.Default);
+        for (int i = 0; i < numElementsToRemove; i++)
+            heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count() - numElementsToRemove);
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithMinNodeComparer_RemoveX_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap, int numElementsToRemove) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MinHeapNodeComparer<T>.Comparer);
+        for (int i = 0; i < numElementsToRemove; i++)
+            heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count() - numElementsToRemove);
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MaxHeapWithRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMaxHeap_WithMaxNodeComparer_RemoveX_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap, int numElementsToRemove) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MaxHeapNodeComparer<T>.Comparer);
+        for (int i = 0; i < numElementsToRemove; i++)
+            heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count() - numElementsToRemove);
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+
+
+        [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithInsertion), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_InsertX_ReturnHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithInsertion), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithDefaultComparer_InsertX_ReturnHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, Comparer<T>.Default);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithInsertion), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithMinNodeComparer_InsertX_ReturnsHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MinHeapNodeComparer<T>.Comparer);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MaxHeapWithInsertion), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMaxHeap_WithMaxNodeComparer_InsertX_ReturnsHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MaxHeapNodeComparer<T>.Comparer);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+
+
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_Reinsert_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        heap.Insert(heap.Remove());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithDefaultComparer_Reinsert_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, Comparer<T>.Default);
+        heap.Insert(heap.Remove());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithMinNodeComparer_Reinsert_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MinHeapNodeComparer<T>.Comparer);
+        heap.Insert(heap.Remove());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MaxHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMaxHeap_WithMaxNodeComparer_Reinsert_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MaxHeapNodeComparer<T>.Comparer);
+        heap.Insert(heap.Remove());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+
+    }
+
+
+
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_InsertDuplicate_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        heap.Insert(values.First());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithDefaultComparer_InsertDuplicate_ReturnHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, Comparer<T>.Default);
+        heap.Insert(values.First());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithMinNodeComparer_InsertDuplicate_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MinHeapNodeComparer<T>.Comparer);
+        heap.Insert(values.First());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MaxHeap), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMaxHeap_WithMinNodeComparer_InsertDuplicate_ReturnsHeapified<T>(IList<T> values, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MaxHeapNodeComparer<T>.Comparer);
+        heap.Insert(values.First());
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(values.Count());
+        heap.Capacity.Should().Be(values.Count());
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+
+
+
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithMultiInsertionRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_UsingDefaultComparer_InsertX_RemoveX_ReturnHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+        heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithMultiInsertionRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithDefaultComparer_InsertX_RemoveX_ReturnHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, Comparer<T>.Default);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+        heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(Comparer<T>.Default);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MinHeapWithMultiInsertionRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMinHeap_WithMinNodeComparer_InsertX_RemoveX_ReturnsHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = 0;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MinHeapNodeComparer<T>.Comparer);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+        heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MinHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
+    }
+
+    [Theory]
+    [MemberData(nameof(MinMaxHeapTestsData.MaxHeapWithMultiInsertionRemoval), MemberType = typeof(MinMaxHeapTestsData))]
+    public void BuildMaxHeap_WithMaxNodeComparer_InsertX_RemoveX_ReturnsHeapified<T>(IList<T> values, IList<T> insertValues, IList<T> expectedHeap) where T : IComparable<T>
+    {
+        // Arrange
+        int expectedCount = values.Count() + insertValues.Count();
+        int expectedCapacity = values.Count() < MinMaxHeap<T>.DEFAULT_CAPACITY ? MinMaxHeap<T>.DEFAULT_CAPACITY : values.Count() >> 1;
+
+        // Act
+        var heap = new MinMaxHeap<T>(values, MaxHeapNodeComparer<T>.Comparer);
+        foreach (var insertValue in insertValues)
+            heap.Insert(insertValue);
+        heap.Remove();
+
+        // Assert
+        using var scope = new AssertionScope();
+        heap.Comparer.Should().Be(MaxHeapNodeComparer<T>.Comparer);
+        heap.IsEmpty.Should().BeFalse();
+        heap.Count.Should().Be(expectedCount);
+        heap.Capacity.Should().Be(expectedCapacity);
+        heap.Heap.Should().Equal(expectedHeap);
     }
 }
 
