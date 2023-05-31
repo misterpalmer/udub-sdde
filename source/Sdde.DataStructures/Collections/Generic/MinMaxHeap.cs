@@ -233,6 +233,7 @@ public class MinMaxHeap<T> where T : IComparable<T>
         Heap = resizedArray;
     }
 
+
     /// <summary>
     /// Ensures that the heap has enough capacity to add a new element
     /// </summary>
