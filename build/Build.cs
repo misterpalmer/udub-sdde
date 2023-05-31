@@ -22,18 +22,19 @@ public partial class Build : NukeBuild, ITest, IPack, IRestore, ICompile, IRepor
         .Before<IRestore>()
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            OutputDirectory.GlobDirectories("**/artifacts", "**/coverage-reports", "**/packages", "**/test-results")
-                .ForEach(DeleteDirectory);
-            TemporaryDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").DeleteDirectories();
+            TestsDirectory.GlobDirectories("**/bin", "**/obj").DeleteDirectories();
+            OutputDirectory
+                .GlobDirectories("**/artifacts", "**/coverage-reports", "**/packages", "**/test-results")
+                .DeleteDirectories();
+            TemporaryDirectory.GlobDirectories("**/bin", "**/obj").DeleteDirectories();
         });
 
     public bool CreateCoverageHtmlReport => true;
     public bool ReportToCodecov => true;
     public bool ReportToCoveralls => true;
 
-    IEnumerable<Project> ITest.TestProjects => Partition.GetCurrent(Solution.GetProjects("*.Tests.*"));
+    IEnumerable<Project> ITest.TestProjects => Partition.GetCurrent(Solution.GetAllProjects("*.Tests.*"));
 
     /// Support plugins are available for:
     /// - JetBrains ReSharper        https://nuke.build/resharper
