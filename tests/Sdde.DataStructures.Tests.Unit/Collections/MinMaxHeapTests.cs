@@ -143,12 +143,11 @@ public class MinMaxHeapTests
         // Assert
         using var scope = new AssertionScope();
         heap.IsEmpty.Should().BeTrue();
+
         heap.Count.Should().Be(0);
         heap.Capacity.Should().Be(MinMaxHeap<char>.DEFAULT_CAPACITY);
         heap.Comparer.Should().Be(MaxHeapNodeComparer<char>.Comparer);
     }
-
-
 
     [Theory]
     [MemberData(nameof(MinMaxHeapTestsData.MinHeap), MemberType = typeof(MinMaxHeapTestsData))]
@@ -736,4 +735,3 @@ public class MinMaxHeapTests
         // heap.Heap.Should().Equal(expectedHeap);
     }
 }
-

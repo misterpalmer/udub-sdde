@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace Sdde.Collections.Generic;
 public class MinMaxHeap<T> where T : IComparable<T>
