@@ -2,6 +2,35 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    
+    "nuke.globaltool": {
+      "version": "7.0.2",
+      "commands": [
+        "nuke"
+      ]
+    },
+    "codecov.tool": {
+      "version": "1.13.0",
+      "commands": [
+        "codecov"
+      ]
+    },
+    "coveralls.net": {
+      "version": "4.0.1",
+      "commands": [
+        "csmacnz.Coveralls"
+      ]
+    },
+    "coverlet.console": {
+      "version": "6.0.0",
+      "commands": [
+        "coverlet"
+      ]
+    },
+    "gitversion.tool": {
+      "version": "6.0.0-beta.2",
+      "commands": [
+        "dotnet-gitversion"
+      ]
+    }
   }
 }
