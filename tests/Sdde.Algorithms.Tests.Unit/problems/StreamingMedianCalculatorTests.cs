@@ -17,7 +17,7 @@ public class StreamingMedianCalculatorTests
 
     [Theory]
     [MemberData(nameof(StreamingMedianCalculatorTestsData.StreamingMedianCalculatorTestData), MemberType = typeof(StreamingMedianCalculatorTestsData))]
-    public void StreamingMedianCalculatorTest(int[] values, double expected)
+    public void InitializeUsingParameterlessConstructor_AddValues_ReturnMedian(int[] values, double expected)
     {
         // Arrange
         var sut = new StreamingMedianCalculator();
@@ -27,7 +27,22 @@ public class StreamingMedianCalculatorTests
         {
             sut.Add(value);
         }
-      
+
+        var actual = sut.Median;
+
+        // Assert
+        using var scope = new AssertionScope();
+        actual.Should().Be(expected);
+    }
+
+    [Theory]
+    [MemberData(nameof(StreamingMedianCalculatorTestsData.StreamingMedianCalculatorTestData), MemberType = typeof(StreamingMedianCalculatorTestsData))]
+    public void InitializeWithValues_AddValues_ReturnMedian(int[] values, double expected)
+    {
+        // Arrange
+        var sut = new StreamingMedianCalculator(values);
+
+        // Act
         var actual = sut.Median;
 
         // Assert
