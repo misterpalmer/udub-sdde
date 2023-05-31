@@ -55,7 +55,6 @@ public class MinMaxHeapTests
 
         // Act
         var heap = new MinMaxHeap<int>(Comparer<int>.Default);
-
         // Assert
         using var scope = new AssertionScope();
         heap.Comparer.Should().Be(Comparer<int>.Default);
@@ -735,3 +734,4 @@ public class MinMaxHeapTests
         // heap.Heap.Should().Equal(expectedHeap);
     }
 }
+

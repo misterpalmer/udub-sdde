@@ -1,6 +1,5 @@
 using Sdde.Collections.Generic;
 
-
 namespace Sdde.Algorithms.Problems;
 
 public class StreamingMedianCalculator
