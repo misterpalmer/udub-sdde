@@ -94,7 +94,7 @@ public class MinMaxHeap<T> where T : IComparable<T>
     }
 
     /// <summary>
-    private void SiftDown(int index)
+    private void SiftDown(int index = 0)
     {
         ArgumentNullException.ThrowIfNull(Heap);
         if (IsEmpty || Count == 1) return;
@@ -105,7 +105,7 @@ public class MinMaxHeap<T> where T : IComparable<T>
             if (GetLeftChildIndex(index) < Count && Compare(Heap[GetLeftChildIndex(index)], Heap[index]) < 0)
                 childIndex = GetLeftChildIndex(index);
 
-            if (GetRightChildIndex(index) < Count && Compare(Heap[GetRightChildIndex(index)], Heap[index]) < 0)
+            if (GetRightChildIndex(index) < Count && Compare(Heap[GetRightChildIndex(index)], Heap[index]) < 0 && Compare(Heap[GetRightChildIndex(index)], Heap[GetLeftChildIndex(index)]) < 0)
                 childIndex = GetRightChildIndex(index);
 
             if (Compare(Heap[childIndex], Heap[index]) >= 0)
@@ -114,7 +114,7 @@ public class MinMaxHeap<T> where T : IComparable<T>
             if (index != childIndex)
                 Swap(index, childIndex);
 
-            // index = childIndex;
+            index = childIndex;
         }
     }
 
@@ -133,8 +133,9 @@ public class MinMaxHeap<T> where T : IComparable<T>
             Swap(index, parentIndex);
             index = parentIndex;
 
-            var next = GetParentIndex((index - 1) / 2);
-            parentIndex = GetParentIndex(next);
+            // var next = GetParentIndex(index);
+            // var next = GetParentIndex((index - 1) / 2);
+            parentIndex = GetParentIndex(index);
         }
     }
 
@@ -174,13 +175,17 @@ public class MinMaxHeap<T> where T : IComparable<T>
     public void Insert(T item)
     {
         ArgumentNullException.ThrowIfNull(Heap);
+        // Heap.Contains(item).ThrowIfTrue("Item already exists in the heap");
 
         EnsureCapacity();
         Heap[Count] = item;
         Count++;
 
-        if (Compare(GetLeftChild(0), Heap[0]) < 0 && Compare(GetRightChild(0), Heap[0]) < 0)
+        if (Compare(GetParent(Count - 1), Heap[Count - 1]) > 0)
             SiftUp();
+
+        // if (Compare(GetLeftChild(0), Heap[0]) < 0 && Compare(GetRightChild(0), Heap[0]) < 0)
+        //     SiftUp();
     }
 
     /// <summary>
@@ -195,7 +200,7 @@ public class MinMaxHeap<T> where T : IComparable<T>
         Heap[Count - 1] = default(T);
         Count--;
 
-        if (Compare(GetLeftChild(0), Heap[0]) > 0 && Compare(GetRightChild(0), Heap[0]) > 0)
+        if (Compare(GetLeftChild(0), Heap[0]) < 0 || Compare(GetRightChild(0), Heap[0]) < 0)
             SiftDown(0);
 
         return item;
@@ -215,7 +220,7 @@ public class MinMaxHeap<T> where T : IComparable<T>
     /// </summary>
     public void Resize()
     {
-        int resizeCapacity = Capacity < DEFAULT_CAPACITY ? DEFAULT_CAPACITY : Capacity >> 1;
+        int resizeCapacity = Capacity < DEFAULT_CAPACITY ? DEFAULT_CAPACITY : Capacity << 1;
         T[] resizedArray = new T[resizeCapacity];
 
         int counter = 0;
