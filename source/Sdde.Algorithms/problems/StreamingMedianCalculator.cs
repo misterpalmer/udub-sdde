@@ -16,16 +16,19 @@ public class StreamingMedianCalculator
         this.Median = 0;
     }
 
+    public StreamingMedianCalculator(IList<int> values) : this()
+    {
+
+        foreach (var value in values)
+            Add(value);
+    }
+
     public void Add(int value)
     {
         if (_lessThanMedian.IsEmpty || value < _lessThanMedian.Peek())
-        {
             _lessThanMedian.Insert(value);
-        }
         else
-        {
             _greaterThanMedian.Insert(value);
-        }
 
         Rebalance();
         UpdateMedian();
@@ -34,28 +37,18 @@ public class StreamingMedianCalculator
     private void Rebalance()
     {
         if (_lessThanMedian.Count - _greaterThanMedian.Count > 1)
-        {
             _greaterThanMedian.Insert(_lessThanMedian.Remove());
-        }
         else if (_greaterThanMedian.Count - _lessThanMedian.Count > 1)
-        {
             _lessThanMedian.Insert(_greaterThanMedian.Remove());
-        }
     }
 
     private void UpdateMedian()
     {
         if (_lessThanMedian.Count == _greaterThanMedian.Count)
-        {
             Median = (_lessThanMedian.Peek() + _greaterThanMedian.Peek()) / 2.0;
-        }
         else if (_lessThanMedian.Count > _greaterThanMedian.Count)
-        {
             Median = _lessThanMedian.Peek();
-        }
         else
-        {
             Median = _greaterThanMedian.Peek();
-        }
     }
 }
