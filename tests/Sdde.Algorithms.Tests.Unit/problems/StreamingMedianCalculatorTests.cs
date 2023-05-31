@@ -27,8 +27,8 @@ public class StreamingMedianCalculatorTests
         {
             sut.Add(value);
         }
-
-        var actual = sut.GetMedian();
+      
+        var actual = sut.Median;
 
         // Assert
         using var scope = new AssertionScope();

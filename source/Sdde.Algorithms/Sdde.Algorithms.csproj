@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sdde.DataStructures\Sdde.DataStructures.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net7.0</TargetFramework>
