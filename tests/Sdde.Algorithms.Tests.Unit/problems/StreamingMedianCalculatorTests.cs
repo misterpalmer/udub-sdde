@@ -15,23 +15,23 @@ public class StreamingMedianCalculatorTests
         this.output = output;
     }
 
-    // [Theory]
-    // [MemberData(nameof(StreamingMedianCalculatorTestsData.StreamingMedianCalculatorTestData), MemberType = typeof(StreamingMedianCalculatorTestsData))]
-    // public void StreamingMedianCalculatorTest(int[] values, double expected)
-    // {
-    //     // Arrange
-    //     var sut = new StreamingMedianCalculator();
+    [Theory]
+    [MemberData(nameof(StreamingMedianCalculatorTestsData.StreamingMedianCalculatorTestData), MemberType = typeof(StreamingMedianCalculatorTestsData))]
+    public void StreamingMedianCalculatorTest(int[] values, double expected)
+    {
+        // Arrange
+        var sut = new StreamingMedianCalculator();
 
-    //     // Act
-    //     foreach (var value in values)
-    //     {
-    //         sut.Add(value);
-    //     }
+        // Act
+        foreach (var value in values)
+        {
+            sut.Add(value);
+        }
 
-    //     var actual = sut.GetMedian();
+        var actual = sut.Median;
 
-    //     // Assert
-    //     using var scope = new AssertionScope();
-    //     actual.Should().Be(expected);
-    // }
+        // Assert
+        using var scope = new AssertionScope();
+        actual.Should().Be(expected);
+    }
 }
